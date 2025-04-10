@@ -93,7 +93,7 @@ impl Player {
         // Find matching item in inventory by name
         if let Some(index) = self.inventory.iter().position(|idref| {
             world.items.iter().any(|item| {
-                item.id == idref.id && item.name.to_lowercase().contains(&name.to_lowercase())
+                item.id == idref.id || item.name.to_lowercase().contains(&name.to_lowercase())
             })
         }) {
             let idref = self.inventory.remove(index);

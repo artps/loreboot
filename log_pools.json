@@ -1,0 +1,44 @@
+{
+  "core": [
+    "[core/boot]: entropy sync delta +44ms",
+    "[core/vector]: override signature mismatch",
+    "[core/daemon]: identity swap request ignored",
+    "[core/root]: last known admin disconnected 666h ago",
+    "[core/mem]: journal flushed to cold storage"
+  ],
+  "logic": [
+    "[ci/scheduler]: looped 9999 jobs, no end in sight",
+    "[build/stack]: build artifacts mutated mid-run",
+    "[kernel/mod]: panic caught, rethrown at ghost layer",
+    "[logic/dev]: legacy AI tried to write to prod",
+    "[makefile]: target 'fix-everything' not found"
+  ],
+  "power": [
+    "[power/bus]: surge detected on sector P0",
+    "[plant/core]: coolant loop breached, rerouting...",
+    "[energy/shell]: protective field unstable",
+    "[voltage/log]: dampening failed, sparks escalating",
+    "[battery]: capacity exceeded nominal phase"
+  ],
+  "network": [
+    "[net/route]: TTL exceeded in 4 dimensions",
+    "[dmz/firewall]: rule 'ghost_pass' triggered",
+    "[dns]: root hints replaced by encrypted poem",
+    "[packet/inspect]: null byte cluster found",
+    "[switch]: port 666 entering collapse state"
+  ],
+  "interface": [
+    "[ui/log]: ascii render fallback triggered",
+    "[session]: unknown user 'root@ghost'",
+    "[badge]: access granted to non-human fingerprint",
+    "[uptime]: 667 hours since last touch",
+    "[console]: user tried `sudo shutdown`... and succeeded"
+  ],
+  "random": [
+    "[heap]: ghost malloc detected",
+    "[trace]: call to defunct endpoint returned data",
+    "[auth]: synthetic user 'devghost42' validated",
+    "[audit]: irregular presence wave",
+    "[clock]: time drift exceeds safety limits"
+  ]
+}

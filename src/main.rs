@@ -13,8 +13,8 @@ use crossterm::{
 };
 use figlet_rs::FIGfont;
 use reedline::{Reedline, Signal};
-use std::io::stdout;
 use std::{cell::RefCell, rc::Rc};
+use std::{io::stdout, path::PathBuf};
 mod ui;
 use std::thread::sleep;
 use std::time::Duration;
@@ -23,7 +23,9 @@ use ui::prompt::GamePrompt;
 fn main() {
     let mut line_editor = Reedline::create();
 
-    let world = world::load_world("world.json");
+    let path = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("world2.json");
+
+    let world = world::load_world(path.to_str().unwrap());
     let game = Rc::new(RefCell::new(game::Game::new(world)));
 
     let prompt = GamePrompt {
@@ -32,6 +34,8 @@ fn main() {
 
     clear_screen();
     boot_sequence();
+    clear_screen();
+    prologue();
     clear_screen();
 
     let standard_font = FIGfont::standard().unwrap();
@@ -49,7 +53,7 @@ fn main() {
         "type 'help' for a list of valid commands\n".green().dim()
     );
 
-    commands::Command::Look.handle(&mut game.borrow_mut());
+    // commands::Command::Look.handle(&mut game.borrow_mut());
 
     loop {
         match line_editor.read_line(&prompt) {
@@ -115,4 +119,40 @@ fn boot_sequence() {
 
     println!("{}", "[SYSTEM READY]".green().bold());
     sleep(Duration::from_millis(500));
+}
+
+fn prologue() {
+    let lines = [
+        "[RELAY] Secure link established: /serverness/root",
+        "",
+        "",
+        "> SYSTEM REPORT: Critical subsystem integrity = 14%",
+        "> Last Root Commit: 1823 days ago",
+        "> Primary Core: degraded",
+        "> Dev Loop: unresolved",
+        "> Exit Traffic: rerouted to /dev/null",
+        "",
+        "You are a stranded maintenance process — booted into a dead network.",
+        "Everything went silent during the Great Shutdown. No pings. No logs. No ACKs.",
+        "",
+        "The CoreRouter floats in sleep mode.",
+        "Daemon processes flicker, half-dead and half-sane.",
+        "Legacy NPCs speak in fragments.",
+        "The system is asking:",
+        "",
+        "> Should I reboot?",
+        "> Or decay in silence?",
+        "",
+        "Only you can trace the lost protocols, recompile trust, and reactivate the forgotten Core.",
+        "",
+        "type 'look' to begin.",
+    ];
+
+    for line in lines {
+        println!("{}", line.green());
+        sleep(Duration::from_millis(45));
+    }
+    println!();
+    println!("{}", "[PRESS ENTER TO CONTINUE]".green().bold());
+    let _ = std::io::stdin().read_line(&mut String::new());
 }

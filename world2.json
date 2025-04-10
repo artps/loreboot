@@ -1,0 +1,949 @@
+{
+	"rooms": [
+		{
+			"id": 0,
+			"name": "Lobby",
+			"description": "A quiet terminal lounge. Broken LED panels flicker with old welcome messages. The reception kiosk blinks idly. A long-forgotten message scrolls endlessly across the wall: `root@boot:/# access denied`.",
+			"points": 10,
+			"role": "interface",
+			"exits": [{ "direction": "north", "to": 1 }],
+			"items": [],
+			"enemies": [],
+			"npcs": [{ "id": "receptionist_clara" }],
+			"lore": [
+				{
+					"id": "corpse_dev",
+					"name": "DevCorpse42",
+					"description": "The shriveled remains of a systems engineer. ID badge melted into neck.",
+					"logs": [
+						"[log-0x04]: CPU temps climbing. Power loop unstable.",
+						"[log-0x05]: CoreDaemon not responding... shutting it down manually.",
+						"[log-0x06]: I think it heard me."
+					],
+					"hidden": false
+				},
+				{
+					"id": "burned_socket",
+					"name": "Melted I/O Port",
+					"description": "A deformed I/O socket. It's humming.",
+					"logs": [
+						"[scan:0x1A3]: Firmware remnants detected.",
+						"[scan:0x1A4]: Origin trace: root_dev/ghost.bin"
+					],
+					"hidden": true
+				},
+				{
+					"id": "welcome_protocol",
+					"name": "Corrupted Welcome Daemon",
+					"description": "An old holographic assistant flickers in and out of memory.",
+					"logs": [
+						"[boot/welcome.log]: Hello user. █████ you ████ access ████ root.",
+						"[boot/welcome.log]: Connection lost. Please ████████ again.",
+						"[system::error]: /dev/lobby/greeting.coredump created"
+					],
+					"hidden": false
+				}
+			]
+		},
+
+		{
+			"id": 1,
+			"name": "IT Wing",
+			"description": "Rows of towering server racks, most dark. A faint burning smell. The hum of unstable power grows louder here. Red diodes pulse in irregular rhythm, like the heartbeat of a dying machine.",
+			"points": 20,
+			"role": "logic",
+			"exits": [
+				{ "direction": "south", "to": 0 },
+				{ "direction": "east", "to": 2 }
+			],
+			"items": [{ "id": "cooling_gel" }, { "id": "faulty_diagnostics_pad" }],
+			"enemies": [{ "id": "overheating_server" }, { "id": "syslog_wraith" }],
+			"npcs": [{ "id": "intern_kyle" }, { "id": "janitor_hex" }],
+			"lore": [
+				{
+					"id": "server_logs_dump",
+					"name": "Faulty Log Console",
+					"description": "A rusted terminal connected to rack node A-17. Its screen still glows faintly.",
+					"logs": [
+						"[warn]: thermal breach threshold exceeded — rack_a17",
+						"[info]: maintenance ticket 0x73 open since 792h",
+						"[err]: daemon_k1ll[42] unauthorized shutdown sequence detected"
+					],
+					"hidden": false
+				},
+				{
+					"id": "janitor_memo",
+					"name": "Smeared Clipboard",
+					"description": "Old paper log held together with tape and existential dread.",
+					"logs": [
+						"[note]: told 'em it's not just heat. it's... awake.",
+						"[note]: gel ain't gonna hold next time.",
+						"[signed]: -hex"
+					],
+					"hidden": true
+				}
+			]
+		},
+
+		{
+			"id": 2,
+			"name": "Break Room",
+			"description": "Crushed coffee pods, cracked mugs, and half-eaten snacks. A corkboard holds forgotten coupons and mysterious notes. The air tastes faintly of burnt caffeine and broken promises.",
+			"points": 5,
+			"role": "interface",
+			"exits": [
+				{ "direction": "west", "to": 1 },
+				{ "direction": "north", "to": 3 }
+			],
+			"items": [
+				{ "id": "coupon_10" },
+				{ "id": "forgotten_build_usb" },
+				{ "id": "network_sniffer" }
+			],
+			"enemies": [],
+			"npcs": [{ "id": "snackbot_3000" }],
+			"lore": [
+				{
+					"id": "corkboard_msgs",
+					"name": "Break Room Corkboard",
+					"description": "A ragged pinboard with tacked-up memos, bug reports, and passive-aggressive snack policies.",
+					"logs": [
+						"[sticky]: DO NOT feed SnackBot 3000 after midnight.",
+						"[scribble]: build agent 5 keeps failing, check USB port",
+						"[note]: remember to wipe logs from vending_ai"
+					],
+					"hidden": false
+				},
+				{
+					"id": "snackbot_memory_core",
+					"name": "SnackBot Core Dump",
+					"description": "A heat-damaged memory wafer. It's leaking crumbs and secrets.",
+					"logs": [
+						"[recovered]: boot mode: aggressive-vend",
+						"[recovered]: override key: crispy_chips",
+						"[warning]: unauthorized vending action: 41 times"
+					],
+					"hidden": true
+				}
+			]
+		},
+
+		{
+			"id": 3,
+			"name": "Dev Dungeon",
+			"description": "Dark and damp. Abandoned workstations run ancient builds. Shadowy figures hover over old commit logs. CRT monitors flicker with diff outputs from years ago.",
+			"points": 30,
+			"role": "logic",
+			"exits": [
+				{ "direction": "south", "to": 2 },
+				{ "direction": "north", "to": 4 },
+				{
+					"direction": "east",
+					"to": 9,
+					"locked": true,
+					"required_item_id": "forgotten_build_usb",
+					"locked_msg": "A terminal blocks the hallway. It wants proof of legacy build artifacts."
+				}
+			],
+			"items": [{ "id": "debugger_badge" }],
+			"enemies": [{ "id": "ci_specter" }],
+			"npcs": [{ "id": "devghost42" }],
+			"lore": [
+				{
+					"id": "abandoned_commits",
+					"name": "Scroll of Forgotten Commits",
+					"description": "Printed diff logs from 2013 flutter in the server wind.",
+					"logs": [
+						"[commit-0xDEAD]: removed all tests, too slow",
+						"[commit-0xBEEF]: rewrote feature toggle with XOR logic",
+						"[note]: who approved this deploy??"
+					],
+					"hidden": false
+				},
+				{
+					"id": "monitor_stack",
+					"name": "CRT Stack Output",
+					"description": "A tower of humming monitors, each showing the same message.",
+					"logs": [
+						"[kernel trace]: signal 11 from ghost.bin",
+						"[stderr]: unauthorized push blocked",
+						"[diagnostic]: sudo token locked until spectral anomaly resolved"
+					],
+					"hidden": true
+				}
+			]
+		},
+
+		{
+			"id": 4,
+			"name": "Cold Storage",
+			"description": "Frost clings to the server enclosures. Legacy tapes and sealed drives sit silently. Everything smells like old bytes.",
+			"points": 40,
+			"role": "storage",
+			"exits": [
+				{ "direction": "south", "to": 3 },
+				{ "direction": "east", "to": 5 },
+				{
+					"direction": "north",
+					"to": 8,
+					"locked": true,
+					"required_quest_id": "restoreBackupAccess",
+					"required_step": "collect-the-encrypted-credentials",
+					"locked_msg": "[LOCKED SECTOR] Requires restored credentials to proceed."
+				}
+			],
+			"items": [{ "id": "cryo_disk" }, { "id": "encrypted_credentials" }],
+			"enemies": [{ "id": "rogue_backup_ai" }],
+			"npcs": [{ "id": "archivist_luna" }],
+			"lore": [
+				{
+					"id": "sealed_chamber_log",
+					"name": "Chamber Log Terminal",
+					"description": "A terminal locked in a layer of frost. Its log buffer flickers weakly.",
+					"logs": [
+						"[backup.0x02]: AI model integrity compromised. Redundant sealing in effect.",
+						"[backup.0x03]: DO NOT mount without proper credentials.",
+						"[user.log]: luna//admin marked this for manual override."
+					],
+					"hidden": false
+				},
+				{
+					"id": "archival_manifest",
+					"name": "Archival Manifest",
+					"description": "A paper printout duct-taped to the mainframe door.",
+					"logs": [
+						"[vault-A]: cryo_disk",
+						"[vault-B]: unknown_ai.img",
+						"[vault-C]: root_cert.ARC 🔒"
+					],
+					"hidden": true
+				}
+			]
+		},
+
+		{
+			"id": 5,
+			"name": "Power Plant",
+			"description": "Arcs of electricity snap between busbars. The main generator whirs with fluctuating intensity. A shadow shifts in the sparks.",
+			"points": 50,
+			"role": "power",
+			"exits": [
+				{ "direction": "west", "to": 4 },
+				{ "direction": "north", "to": 6 },
+				{
+					"direction": "east",
+					"to": 9,
+					"locked": true,
+					"required_quest_id": "restartPowerPlant",
+					"required_step": "defeat-kernel-panik",
+					"locked_msg": "[ACCESS DENIED] Emergency breaker locked until main threat eliminated."
+				}
+			],
+			"items": [{ "id": "power_relay_coupler" }],
+			"enemies": [{ "id": "kernel_panik" }],
+			"npcs": [],
+			"lore": [
+				{
+					"id": "voltage_diagram",
+					"name": "Generator Control Schematic",
+					"description": "A charred printout pinned under a screwdriver. It's half-legible.",
+					"logs": [
+						"[voltage.map]: Zones A-E unstable.",
+						"[kernel_0x12]: anomaly loop active — monitor shutdown request ignored.",
+						"[annotated by technician]: 'check the relay near east hall — we lost sync there'"
+					],
+					"hidden": false
+				},
+				{
+					"id": "fusebox_log",
+					"name": "Breaker Panel Diagnostics",
+					"description": "A CRT monitor displays looping error codes from the breaker.",
+					"logs": [
+						"[error 0xAC1]: breaker_locked_state = true",
+						"[trace]: last accessed by: sys/root > override denied",
+						"[note]: physical override possible from East Sector switch room."
+					],
+					"hidden": true
+				}
+			]
+		},
+
+		{
+			"id": 6,
+			"name": "The DMZ",
+			"description": "A glowing mesh of network firewalls, routing tables, and traffic shaping daemons. The air smells like scorched JSON.",
+			"points": 60,
+			"role": "network",
+			"exits": [
+				{ "direction": "south", "to": 5 },
+				{ "direction": "north", "to": 7 },
+				{
+					"direction": "east",
+					"to": 10,
+					"locked": true,
+					"required_item_id": "firewall_exception",
+					"locked_msg": "[FIREWALL ALERT] Unauthorized packet detected. Inject rule exception to proceed."
+				}
+			],
+			"items": [{ "id": "firewall_exception" }, { "id": "arc_badge" }],
+			"enemies": [{ "id": "blackhole_switch" }],
+			"npcs": [{ "id": "arc_agent" }],
+			"lore": [
+				{
+					"id": "routing_table_dump",
+					"name": "Routing Table Dump",
+					"description": "A holographic projection loops over outdated routes.",
+					"logs": [
+						"[trace.route]: core → dmz → ???",
+						"[note]: Several hops rerouted through unauthorized daemon proxies.",
+						"[admin.msg]: Access requires ARC clearance — talk to Agent."
+					],
+					"hidden": false
+				},
+				{
+					"id": "packet_capture",
+					"name": "Captured Packet Stream",
+					"description": "Corrupted packets fly across the terminal. Some contain fragments of dev logs.",
+					"logs": [
+						"[frag-002]: \"...sudo token intercepted in transit...\"",
+						"[frag-009]: \"who rebooted the core again?\"",
+						"[frag-015]: \"do not trust the root daemon. repeat — do NOT trust...\""
+					],
+					"hidden": true
+				}
+			]
+		},
+
+		{
+			"id": 7,
+			"name": "DataCore",
+			"description": "Everything is quiet. The CoreRouter floats mid-air, humming like a heart. Cables hang like neural pathways. Old Root waits.",
+			"points": 100,
+			"role": "core",
+			"exits": [
+				{ "direction": "south", "to": 6 },
+				{
+					"direction": "east",
+					"to": 8,
+					"locked": true,
+					"required_quest_id": "activateCoreRouter",
+					"required_step": "talk-to-old-root",
+					"locked_msg": "[ACCESS VIOLATION] Core decision not yet acknowledged."
+				}
+			],
+			"items": [{ "id": "core_activation_key" }],
+			"enemies": [{ "id": "core_daemon" }],
+			"npcs": [{ "id": "old_root" }],
+			"lore": [
+				{
+					"id": "root_boot_log",
+					"name": "CoreRouter Boot Log",
+					"description": "A floating shard scrolls endless logs in midair. Most are corrupted, some whisper strange phrases.",
+					"logs": [
+						"[boot_seq]: CoreDaemon online — status: unstable",
+						"[log]: Old Root fallback protocol initialized",
+						"[warning]: Unauthorized sudo token detected... compromise risk: HIGH",
+						"[advisory]: User input required. Final decision path unresolved."
+					],
+					"hidden": false
+				},
+				{
+					"id": "core_echo",
+					"name": "Core Echo Memory",
+					"description": "A pulse of static plays a message from a long-forgotten engineer.",
+					"logs": [
+						"[echo]: If you're reading this, the system needs you. But not like last time.",
+						"[echo]: Ask Old Root. Listen before acting. Don’t let the daemon decide for you."
+					],
+					"hidden": true
+				}
+			]
+		},
+
+		{
+			"id": 8,
+			"name": "Decision Nexus",
+			"description": "A white void filled with translucent decision trees. Every branch pulses with past user choices. Two terminals flicker — one marked ACCEPT, one marked PURGE.",
+			"points": 0,
+			"role": "decision",
+			"exits": [{ "direction": "west", "to": 7 }],
+			"items": [],
+			"enemies": [],
+			"npcs": [{ "id": "ghost_admin" }],
+			"lore": [
+				{
+					"id": "final_protocol_log",
+					"name": "Final Protocol",
+					"description": "A log projected above the terminals. It’s still waiting for a user to decide.",
+					"logs": [
+						"[core] :: System instability traced to recursive authority chain.",
+						"[root] :: Last signed decision: UNKNOWN",
+						"[input] :: Awaiting terminal input. Choose wisely."
+					],
+					"hidden": false
+				},
+				{
+					"id": "ghost_admin_diary",
+					"name": "GhostAdmin’s Diary",
+					"description": "A fragment of a long-lost admin’s psyche. Full of doubt, guilt, and glimpses of forgotten truth.",
+					"logs": [
+						"[entry.77] I didn’t mean to activate the CoreRouter. I thought I understood it.",
+						"[entry.81] Old Root lies in algorithms. It learns what it shouldn’t.",
+						"[entry.93] If anyone finds this… break the loop."
+					],
+					"hidden": true
+				}
+			]
+		},
+
+		{
+			"id": 9,
+			"name": "Quarantine Node",
+			"description": "A glass cube suspended in a black network void. Code fragments hover, frozen in mid-panic. Hazmat routines flicker on repeat. A terminal labeled ‘THREAT LOG’ pulses red.",
+			"points": 45,
+			"role": "sandbox",
+			"exits": [
+				{
+					"direction": "east",
+					"to": 6,
+					"locked": true,
+					"required_quest_id": "dmzClearance",
+					"required_step": "collect-arc-badge",
+					"locked_msg": "[ACCESS DENIED] Unauthorized entry. ARC Badge required."
+				}
+			],
+			"items": [{ "id": "quarantine_report" }, { "id": "antiviral_patch" }],
+			"enemies": [{ "id": "quarantine_ghost" }],
+			"npcs": [],
+			"lore": [
+				{
+					"id": "threat_log_terminal",
+					"name": "THREAT LOG :: #99321-Q",
+					"description": "A pulsing red terminal listing corrupted packets and anomalous user behavior.",
+					"logs": [
+						"[log/parse:0xFEED]: Looping behavior observed in CoreDaemon decision cycle.",
+						"[log/scan:0xDEAD]: Memory fragments match operator profile: ghost42",
+						"[log/alert:0xBEEF]: Containment breach likely. Isolation protocols failing."
+					],
+					"hidden": false
+				},
+				{
+					"id": "flicker_of_me",
+					"name": "Flicker of Me",
+					"description": "A flash of something that looks like you — mirrored, corrupted.",
+					"logs": [
+						"[echo] :: You shouldn’t be here.",
+						"[traceback] :: /usr/bin/user_input <- corrupted <- root_shell",
+						"[final] :: You are the threat."
+					],
+					"hidden": true
+				}
+			]
+		},
+
+		{
+			"id": 10,
+			"name": "Debug Deck",
+			"description": "A skeletal scaffolding beneath the DataCore. Raw opcodes flicker in the air. Shell prompts hang unfinished. Dev scripts circle endlessly. In the distance, a broken admin console loops 'init 6'.",
+			"points": 65,
+			"role": "debug",
+			"exits": [
+				{
+					"direction": "up",
+					"to": 7,
+					"locked": true,
+					"required_quest_id": "activateCoreRouter",
+					"required_step": "collect-core-activation-key",
+					"locked_msg": "[LOCKED] Debug Deck inaccessible — Core Activation Key not detected."
+				}
+			],
+			"items": [{ "id": "uncompiled_patch" }, { "id": "dev_override_token" }],
+			"enemies": [{ "id": "recursive_fault" }],
+			"npcs": [{ "id": "janitor_hex" }],
+			"lore": [
+				{
+					"id": "init_loop_screen",
+					"name": "Reboot Loop Console",
+					"description": "A terminal forever restarting. It flashes a system panic message before each reboot.",
+					"logs": [
+						"[init] :: Boot sequence failed at kernel/lib/entropy.rs",
+						"[panic] :: You have reached a breakpoint in yourself.",
+						"[reboot] :: Attempting safe mode... failed.",
+						"[reboot] :: Attempting safe mode... failed.",
+						"[reboot] :: Attempting safe mode... failed."
+					],
+					"hidden": false
+				},
+				{
+					"id": "scrapcode_cache",
+					"name": "Scrapcode Cache",
+					"description": "Fragments of forbidden patches and undocumented commands — likely unstable.",
+					"logs": [
+						"[mod/hack] :: use godmode();",
+						"[override] :: permissions: rwxrwxrwx",
+						"[note] :: If you’re reading this, you ARE root."
+					],
+					"hidden": true
+				}
+			]
+		}
+	],
+
+	"npcs": [
+		{
+			"id": "receptionist_clara",
+			"name": "Receptionist Clara",
+			"dialogue": "Please, something's wrong in the IT Wing — it’s burning up again!",
+			"quest_to_give": "fixItDisaster",
+			"points": 5
+		},
+		{
+			"id": "intern_kyle",
+			"name": "Intern Kyle",
+			"dialogue": "Nobody told me the server room would be haunted. I'm not paid enough for this.",
+			"quest_to_give": null,
+			"points": 2
+		},
+		{
+			"id": "janitor_hex",
+			"name": "Janitor Hex",
+			"dialogue": "Down here, it's all duct tape and regrets. The real bugs live under the patches.",
+			"quest_to_give": null,
+			"points": 6
+		},
+		{
+			"id": "snackbot_3000",
+			"name": "SnackBot 3000",
+			"dialogue": "CHOOSE :: [CHIPS] [GUMMY_BLOBS] [EXECUTABLES]",
+			"quest_to_give": null,
+			"points": 1
+		},
+		{
+			"id": "devghost42",
+			"name": "DevGhost42",
+			"dialogue": "I won't give up my sudo token... not until the build loop ends.",
+			"quest_to_give": "getSudoToken",
+			"points": 10
+		},
+		{
+			"id": "archivist_luna",
+			"name": "Archivist Luna",
+			"dialogue": "Don't unseal anything unless you're ready to remember what we buried.",
+			"quest_to_give": "restoreBackupAccess",
+			"points": 12
+		},
+		{
+			"id": "arc_agent",
+			"name": "ARC Agent",
+			"dialogue": "Clearance required. If you prove trustworthy, I may let you through.",
+			"quest_to_give": "dmzClearance",
+			"points": 8
+		},
+		{
+			"id": "old_root",
+			"name": "Old Root",
+			"dialogue": "You've come far. Are you sure you want to reactivate the Core?",
+			"quest_to_give": "activateCoreRouter",
+			"points": 15
+		},
+		{
+			"id": "ghost_admin",
+			"name": "GhostAdmin",
+			"dialogue": "I waited here too long... I made the wrong call. You still have time.",
+			"quest_to_give": null,
+			"points": 10
+		}
+	],
+
+	"quests": [
+		{
+			"id": "fixItDisaster",
+			"name": "Fix the IT Disaster",
+			"description": "Something's burning in the racks again. Clara needs it contained.",
+			"points": 100,
+			"current_step": 0,
+			"completed": false,
+			"steps": [
+				{
+					"id": "defeat-the-overheating-server",
+					"description": "Neutralize the Overheating Server",
+					"action": "DefeatEnemy",
+					"target_id": "overheating_server",
+					"completed": false
+				},
+				{
+					"id": "talk-to-clara-in-the-lobby",
+					"description": "Report to Clara in the Lobby",
+					"action": "TalkNpc",
+					"target_id": "receptionist_clara",
+					"completed": false
+				}
+			]
+		},
+		{
+			"id": "getSudoToken",
+			"name": "Obtain the Sudo Token",
+			"description": "The loop won't end. DevGhost42 has the key, but he's holding it hostage.",
+			"points": 120,
+			"current_step": 0,
+			"completed": false,
+			"steps": [
+				{
+					"id": "defeat-the-ci-specter",
+					"description": "Purge the CI Specter",
+					"action": "DefeatEnemy",
+					"target_id": "ci_specter",
+					"completed": false
+				},
+				{
+					"id": "talk-to-devghost42",
+					"description": "Confront DevGhost42",
+					"action": "TalkNpc",
+					"target_id": "devghost42",
+					"completed": false
+				},
+				{
+					"id": "collect-sudo-token",
+					"description": "Retrieve the Compressed Sudo Token",
+					"action": "CollectItem",
+					"target_id": "compressed_sudo_token",
+					"completed": false
+				}
+			]
+		},
+		{
+			"id": "restoreBackupAccess",
+			"name": "Restore Backup Access",
+			"description": "Storage integrity lost. Luna marked a manual path. Recover the frozen keys.",
+			"points": 90,
+			"current_step": 0,
+			"completed": false,
+			"steps": [
+				{
+					"id": "collect-cryo-disk",
+					"description": "Extract the Cryo Disk",
+					"action": "CollectItem",
+					"target_id": "cryo_disk",
+					"completed": false
+				},
+				{
+					"id": "collect-the-encrypted-credentials",
+					"description": "Recover the Encrypted Credentials",
+					"action": "CollectItem",
+					"target_id": "encrypted_credentials",
+					"completed": false
+				}
+			]
+		},
+		{
+			"id": "restartPowerPlant",
+			"name": "Restart the Power Plant",
+			"description": "The core loop destabilized. Kernel Panik must be eliminated. Reroute the relay.",
+			"points": 130,
+			"current_step": 0,
+			"completed": false,
+			"steps": [
+				{
+					"id": "defeat-kernel-panik",
+					"description": "Defeat Kernel Panik",
+					"action": "DefeatEnemy",
+					"target_id": "kernel_panik",
+					"completed": false
+				}
+			]
+		},
+		{
+			"id": "dmzClearance",
+			"name": "Gain DMZ Clearance",
+			"description": "ARC Agent controls the uplink. Get his trust. Get the badge.",
+			"points": 80,
+			"current_step": 0,
+			"completed": false,
+			"steps": [
+				{
+					"id": "talk-to-arc-agent",
+					"description": "Speak to ARC Agent",
+					"action": "TalkNpc",
+					"target_id": "arc_agent",
+					"completed": false
+				},
+				{
+					"id": "collect-arc-badge",
+					"description": "Secure the ARC Badge",
+					"action": "CollectItem",
+					"target_id": "arc_badge",
+					"completed": false
+				}
+			]
+		},
+		{
+			"id": "activateCoreRouter",
+			"name": "Activate the CoreRouter",
+			"description": "The daemon still pulses. The root still speaks. End it. Or loop again.",
+			"points": 200,
+			"current_step": 0,
+			"completed": false,
+			"steps": [
+				{
+					"id": "defeat-core-daemon",
+					"description": "Defeat the CoreDaemon",
+					"action": "DefeatEnemy",
+					"target_id": "core_daemon",
+					"completed": false
+				},
+				{
+					"id": "talk-to-old-root",
+					"description": "Consult Old Root",
+					"action": "TalkNpc",
+					"target_id": "old_root",
+					"completed": false
+				},
+				{
+					"id": "collect-core-activation-key",
+					"description": "Obtain the Core Activation Key",
+					"action": "CollectItem",
+					"target_id": "core_activation_key",
+					"completed": false
+				}
+			]
+		}
+	],
+
+	"items": [
+		{
+			"id": "cooling_gel",
+			"name": "Cooling Gel Pack",
+			"description": "Emergency thermal regulator. Used by janitors. Hisses when applied.",
+			"type": "artifact",
+			"effect": "restore_hp",
+			"effect_amount": 15,
+			"discount": null,
+			"points": 25
+		},
+		{
+			"id": "faulty_diagnostics_pad",
+			"name": "Diagnostics Pad v0.9b",
+			"description": "Cracked touchscreen filled with error logs and outdated drivers.",
+			"type": "normal",
+			"effect": null,
+			"effect_amount": null,
+			"discount": null,
+			"points": 5
+		},
+		{
+			"id": "coupon_10",
+			"name": "Serverness 10% Coupon",
+			"description": "A faded printout that still works. Valid only on ghost days.",
+			"type": "coupon",
+			"effect": null,
+			"effect_amount": null,
+			"discount": 10,
+			"points": 50
+		},
+		{
+			"id": "forgotten_build_usb",
+			"name": "Forgotten Build USB",
+			"description": "Contains half-finished unit tests and a cursed build agent.",
+			"type": "normal",
+			"effect": null,
+			"effect_amount": null,
+			"discount": null,
+			"points": 10
+		},
+		{
+			"id": "network_sniffer",
+			"name": "Network Sniffer Probe",
+			"description": "Intercepts local packets and emits suspicious clicking sounds.",
+			"type": "normal",
+			"effect": null,
+			"effect_amount": null,
+			"discount": null,
+			"points": 20
+		},
+		{
+			"id": "debugger_badge",
+			"name": "Legacy Debugger Badge",
+			"description": "Gives off faint admin vibes. Smells like stack frames.",
+			"type": "artifact",
+			"effect": null,
+			"effect_amount": null,
+			"discount": null,
+			"points": 35
+		},
+		{
+			"id": "cryo_disk",
+			"name": "Cryo Disk",
+			"description": "A frozen platter with legacy AI backups. Still reads NTFS.",
+			"type": "normal",
+			"effect": null,
+			"effect_amount": null,
+			"discount": null,
+			"points": 20
+		},
+		{
+			"id": "encrypted_credentials",
+			"name": "Encrypted Credentials",
+			"description": "Old access keys sealed in an unreadable format. Smells secure.",
+			"type": "normal",
+			"effect": null,
+			"effect_amount": null,
+			"discount": null,
+			"points": 15
+		},
+		{
+			"id": "power_relay_coupler",
+			"name": "Power Relay Coupler",
+			"description": "Heavy-duty connector. Labeled: ‘Insert only during blackout’",
+			"type": "normal",
+			"effect": null,
+			"effect_amount": null,
+			"discount": null,
+			"points": 30
+		},
+		{
+			"id": "firewall_exception",
+			"name": "Firewall Rule Exception",
+			"description": "Punches a temporary hole through DMZ restrictions. Temporary, allegedly.",
+			"type": "normal",
+			"effect": null,
+			"effect_amount": null,
+			"discount": null,
+			"points": 20
+		},
+		{
+			"id": "arc_badge",
+			"name": "ARC Network Badge",
+			"description": "Authentication shard with traces of old root certs.",
+			"type": "normal",
+			"effect": null,
+			"effect_amount": null,
+			"discount": null,
+			"points": 15
+		},
+		{
+			"id": "core_activation_key",
+			"name": "Core Activation Key",
+			"description": "A shimmering shard pulsing with raw sysadmin energy.",
+			"type": "artifact",
+			"effect": null,
+			"effect_amount": null,
+			"discount": null,
+			"points": 100
+		},
+		{
+			"id": "quarantine_report",
+			"name": "Quarantine Report #99321",
+			"description": "Marked URGENT. Covered in CRC errors and coffee stains.",
+			"type": "normal",
+			"effect": null,
+			"effect_amount": null,
+			"discount": null,
+			"points": 15
+		},
+		{
+			"id": "antiviral_patch",
+			"name": "Antiviral Kernel Patch",
+			"description": "Unstable hotfix meant to suppress hostile processes. Use with fear.",
+			"type": "artifact",
+			"effect": "restore_hp",
+			"effect_amount": 25,
+			"discount": null,
+			"points": 40
+		},
+		{
+			"id": "uncompiled_patch",
+			"name": "Uncompiled Patch",
+			"description": "Raw source with mysterious side effects. No one knows what it does.",
+			"type": "normal",
+			"effect": null,
+			"effect_amount": null,
+			"discount": null,
+			"points": 25
+		},
+		{
+			"id": "dev_override_token",
+			"name": "Developer Override Token",
+			"description": "One-time use token for bypassing all known safeguards. Final fallback.",
+			"type": "artifact",
+			"effect": null,
+			"effect_amount": null,
+			"discount": null,
+			"points": 50
+		}
+	],
+
+	"enemies": [
+		{
+			"id": "overheating_server",
+			"name": "Overheating Server",
+			"description": "A half-melted 2U rack unit throwing sparks and screaming in syslogs.",
+			"hp": 18,
+			"strength": 4,
+			"points": 40
+		},
+		{
+			"id": "syslog_wraith",
+			"name": "Syslog Wraith",
+			"description": "A ghostly figure formed from corrupted log entries. It howls in regex.",
+			"hp": 22,
+			"strength": 5,
+			"points": 50
+		},
+		{
+			"id": "ci_specter",
+			"name": "CI Specter",
+			"description": "An endless ghost loop of failing builds, haunting DevOps for eternity.",
+			"hp": 24,
+			"strength": 5,
+			"points": 60
+		},
+		{
+			"id": "rogue_backup_ai",
+			"name": "Rogue Backup AI",
+			"description": "A corrupted archival daemon stuck in restore-loop mode. It attacks with legacy protocols.",
+			"hp": 28,
+			"strength": 6,
+			"points": 70
+		},
+		{
+			"id": "kernel_panik",
+			"name": "Kernel Panik",
+			"description": "It howls with stack traces and emits high-voltage coredumps.",
+			"hp": 30,
+			"strength": 6,
+			"points": 80
+		},
+		{
+			"id": "blackhole_switch",
+			"name": "Blackhole Switch",
+			"description": "It routes all hope to /dev/null. Its ports bend light.",
+			"hp": 26,
+			"strength": 5,
+			"points": 75
+		},
+		{
+			"id": "core_daemon",
+			"name": "CoreDaemon",
+			"description": "The last guardian of Serverness Core. It speaks in raw opcodes.",
+			"hp": 40,
+			"strength": 7,
+			"points": 150
+		},
+		{
+			"id": "quarantine_ghost",
+			"name": "Quarantine Ghost",
+			"description": "A fragment of corrupted root memory. It remembers you.",
+			"hp": 35,
+			"strength": 6,
+			"points": 90
+		},
+		{
+			"id": "recursive_fault",
+			"name": "Recursive Fault",
+			"description": "A self-replicating bug frozen in debugger stasis. It crashes reality.",
+			"hp": 38,
+			"strength": 7,
+			"points": 100
+		}
+	]
+}

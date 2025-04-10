@@ -22,6 +22,7 @@ pub struct Room {
     pub enemies: Vec<IdRef>,
     pub npcs: Vec<IdRef>,
     pub lore: Vec<LoreObject>,
+    pub role: Option<String>, // e.g., "boot", "storage", "network", "core", "interface"
 }
 
 #[derive(Debug, Deserialize, Clone)]
@@ -31,6 +32,7 @@ pub struct LoreObject {
     pub description: String,
     pub logs: Vec<String>,
     pub hidden: bool, // requires `scan` to be visible
+    pub generated: Option<bool>,
 }
 
 #[derive(Debug, Deserialize, Clone)]
@@ -42,6 +44,7 @@ pub struct Exit {
     pub required_quest_id: Option<String>,
     pub required_step: Option<String>,
     pub locked_msg: Option<String>,
+    pub unlock_hint: Option<String>,
 }
 
 #[derive(Debug, Deserialize, Clone)]
@@ -98,6 +101,7 @@ pub struct Quest {
     pub current_step: usize,
     pub completed: bool,
     pub steps: Vec<QuestStep>,
+    pub required_for_ending: Option<bool>,
 }
 
 #[derive(Debug, Deserialize, Clone)]

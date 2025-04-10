@@ -4,6 +4,7 @@ use crossterm::style::Stylize;
 pub enum Command {
     Look,
     Go(String),
+    Inspect(String),
     Take(String),
     Examine(String),
     Scan,
@@ -27,6 +28,7 @@ impl Command {
         match words[0].to_lowercase().as_str() {
             "look" => Command::Look,
             "go" if words.len() > 1 => Command::Go(words[1].to_string()),
+            "inspect" if words.len() > 1 => Command::Inspect(words[1..].join(" ")),
             "take" if words.len() > 1 => Command::Take(words[1..].join(" ")),
             "examine" if words.len() > 1 => Command::Examine(words[1..].join(" ")),
             "talk" if words.len() > 1 => Command::Talk(words[1..].join(" ")),
@@ -104,6 +106,14 @@ impl Command {
                         }
                     }
                 }
+
+                let visible_lore: Vec<_> = room.lore.iter().filter(|l| !l.hidden).collect();
+                if !visible_lore.is_empty() {
+                    println!("\n{}", ":: SYSTEM REMNANTS ::".yellow().bold());
+                    for l in visible_lore {
+                        println!(" - {}", l.name.clone().yellow());
+                    }
+                }
             }
 
             Command::Go(direction) => {
@@ -168,6 +178,79 @@ impl Command {
                 }
             }
 
+            Command::Inspect(direction) => {
+                let exits = &game.current_room().exits;
+                if let Some(exit) = exits
+                    .iter()
+                    .find(|e| e.direction.eq_ignore_ascii_case(direction))
+                {
+                    let mut locked = false;
+                    let mut reasons = vec![];
+
+                    if let Some(ref item_id) = exit.required_item_id {
+                        if !game.player.inventory.iter().any(|i| &i.id == item_id) {
+                            let label = game
+                                .world
+                                .items
+                                .iter()
+                                .find(|it| &it.id == item_id)
+                                .map(|it| it.name.clone())
+                                .unwrap_or_else(|| item_id.clone());
+                            reasons.push(format!("MISSING ITEM: {}", label.to_uppercase()));
+                            locked = true;
+                        }
+                    }
+
+                    if let (Some(qid), Some(step_id)) =
+                        (&exit.required_quest_id, &exit.required_step)
+                    {
+                        let found = game.quests.iter().any(|q| {
+                            q.id == *qid && q.steps.iter().any(|s| s.id == *step_id && s.completed)
+                        });
+
+                        if !found {
+                            reasons
+                                .push(format!("QUEST STEP INCOMPLETE: {}", step_id.to_uppercase()));
+                            locked = true;
+                        }
+                    }
+
+                    let dest = game
+                        .world
+                        .rooms
+                        .iter()
+                        .find(|r| r.id == exit.to)
+                        .map(|r| r.name.to_uppercase())
+                        .unwrap_or("UNKNOWN".into());
+
+                    println!();
+                    println!(
+                        "{}",
+                        format!("[ACCESS GATE: {} → {}]", direction.to_uppercase(), dest)
+                            .green()
+                            .bold()
+                    );
+
+                    if locked {
+                        println!("  :: STATUS     → {}", "LOCKED".red());
+                        for reason in reasons {
+                            println!("  :: REASON     → {}", reason);
+                        }
+
+                        if let Some(hint) = &exit.unlock_hint {
+                            println!("  :: HINT       → {}", hint.to_uppercase().dim());
+                        }
+                    } else {
+                        println!("  :: STATUS     → {}", "ACCESSIBLE".green());
+                    }
+                } else {
+                    println!(
+                        "{}",
+                        format!(">> No exit in direction '{}'", direction).dim()
+                    );
+                }
+            }
+
             Command::Take(item_id) => {
                 let room = game.current_room_mut();
                 if let Some(pos) = room.items.iter().position(|i| i.id == *item_id) {
@@ -206,7 +289,9 @@ impl Command {
             Command::Examine(target) => {
                 // First check inventory
                 if game.player.has_item(&target) {
-                    if let Some(item) = game.world.items.iter().find(|i| i.id == *target) {
+                    if let Some(item) = game.world.items.iter().find(|i| {
+                        i.id == *target || i.name.to_lowercase().contains(&target.to_lowercase())
+                    }) {
                         println!("{}", "[ITEM DUMP]".bold().green());
                         println!(
                             "{}",
@@ -240,7 +325,6 @@ impl Command {
 
             Command::Scan => {
                 let room = game.current_room();
-                let mut found = false;
                 println!("{}", "[SUBNET SCAN INITIALIZED]".green().bold());
 
                 for obj in &room.lore {
@@ -250,17 +334,11 @@ impl Command {
                             "[TRACE FOUND]".green(),
                             obj.name.to_uppercase().bold().green()
                         );
+
                         for log in &obj.logs {
                             println!("{}", format!("> {}", log).green().dim().italic());
                         }
                     }
-                }
-
-                if !found {
-                    println!(
-                        "{}",
-                        "> scan.env: clean :: code=0x00".dim().italic().green()
-                    );
                 }
             }
 

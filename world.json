@@ -5,9 +5,8 @@
       "name": "Lobby",
       "description": "A quiet terminal lounge. Broken LED panels flicker with old welcome messages. The reception kiosk blinks idly.",
       "points": 10,
-      "exits": [
-        { "direction": "north", "to": 1 }
-      ],
+      "role": "interface",
+      "exits": [{ "direction": "north", "to": 1 }],
       "items": [],
       "enemies": [],
       "npcs": [{ "id": "receptionist_clara" }],
@@ -40,19 +39,14 @@
       "name": "IT Wing",
       "description": "Rows of towering server racks, most dark. A faint burning smell. The hum of unstable power grows louder here.",
       "points": 20,
+      "role": "logic",
       "exits": [
         { "direction": "south", "to": 0 },
         { "direction": "east", "to": 2 }
       ],
-      "items": [
-        { "id": "cooling_gel" }
-      ],
-      "enemies": [
-        { "id": "overheating_server" }
-      ],
-      "npcs": [
-        { "id": "intern_kyle" }
-      ],
+      "items": [{ "id": "cooling_gel" }],
+      "enemies": [{ "id": "overheating_server" }],
+      "npcs": [{ "id": "intern_kyle" }],
       "lore": []
     },
     {
@@ -60,6 +54,7 @@
       "name": "Break Room",
       "description": "Crushed coffee pods, cracked mugs, and half-eaten snacks. A corkboard holds forgotten coupons and mysterious notes.",
       "points": 5,
+      "role": "interface",
       "exits": [
         { "direction": "west", "to": 1 },
         { "direction": "north", "to": 3 }
@@ -77,17 +72,14 @@
       "name": "Dev Dungeon",
       "description": "Dark and damp. Abandoned workstations run ancient builds. Shadowy figures hover over old commit logs.",
       "points": 30,
+      "role": "logic",
       "exits": [
         { "direction": "south", "to": 2 },
         { "direction": "north", "to": 4 }
       ],
       "items": [],
-      "enemies": [
-        { "id": "ci_specter" }
-      ],
-      "npcs": [
-        { "id": "devghost42" }
-      ],
+      "enemies": [{ "id": "ci_specter" }],
+      "npcs": [{ "id": "devghost42" }],
       "lore": []
     },
     {
@@ -95,6 +87,7 @@
       "name": "Cold Storage",
       "description": "Frost clings to the server enclosures. Legacy tapes and sealed drives sit silently. Everything smells like old bytes.",
       "points": 40,
+      "role": "storage",
       "exits": [
         { "direction": "south", "to": 3 },
         { "direction": "east", "to": 5 }
@@ -112,14 +105,13 @@
       "name": "Power Plant",
       "description": "Arcs of electricity snap between busbars. The main generator whirs with fluctuating intensity. A shadow shifts in the sparks.",
       "points": 50,
+      "role": "power",
       "exits": [
         { "direction": "west", "to": 4 },
         { "direction": "north", "to": 6 }
       ],
       "items": [],
-      "enemies": [
-        { "id": "kernel_panik" }
-      ],
+      "enemies": [{ "id": "kernel_panik" }],
       "npcs": [],
       "lore": []
     },
@@ -128,6 +120,7 @@
       "name": "The DMZ",
       "description": "A glowing mesh of network firewalls, routing tables, and traffic shaping daemons. The air smells like scorched JSON.",
       "points": 60,
+      "role": "network",
       "exits": [
         { "direction": "south", "to": 5 },
         { "direction": "north", "to": 7 }
@@ -136,12 +129,8 @@
         { "id": "firewall_exception" },
         { "id": "arc_badge" }
       ],
-      "enemies": [
-        { "id": "blackhole_switch" }
-      ],
-      "npcs": [
-        { "id": "arc_agent" }
-      ],
+      "enemies": [{ "id": "blackhole_switch" }],
+      "npcs": [{ "id": "arc_agent" }],
       "lore": []
     },
     {
@@ -149,18 +138,13 @@
       "name": "DataCore",
       "description": "Everything is quiet. The CoreRouter floats mid-air, humming like a heart. Cables hang like neural pathways. Old Root waits.",
       "points": 100,
+      "role": "core",
       "exits": [
         { "direction": "south", "to": 6 }
       ],
-      "items": [
-        { "id": "core_activation_key" }
-      ],
-      "enemies": [
-        { "id": "core_daemon" }
-      ],
-      "npcs": [
-        { "id": "old_root" }
-      ],
+      "items": [{ "id": "core_activation_key" }],
+      "enemies": [{ "id": "core_daemon" }],
+      "npcs": [{ "id": "old_root" }],
       "lore": []
     }
   ],
