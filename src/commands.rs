@@ -62,7 +62,7 @@ impl Command {
 
                     for item_ref in &room.items {
                         if let Some(item) = game.world.items.iter().find(|i| i.id == item_ref.id) {
-                            println!("  - {}", item.name.to_uppercase().green());
+                            println!("  - {}", item.id.to_uppercase().green());
                         }
                     }
                 }
@@ -75,7 +75,7 @@ impl Command {
                         if let Some(enemy) =
                             game.world.enemies.iter().find(|e| e.id == enemy_ref.id)
                         {
-                            println!("  - {}", enemy.name.to_uppercase().red().bold());
+                            println!("  - {}", enemy.id.to_uppercase().red().bold());
                         }
                     }
                 }
@@ -86,7 +86,7 @@ impl Command {
 
                     for npc_ref in &room.npcs {
                         if let Some(npc) = game.world.npcs.iter().find(|n| n.id == npc_ref.id) {
-                            println!("  - {}", npc.name.to_uppercase().cyan());
+                            println!("  - {}", npc.id.to_uppercase().cyan());
                         }
                     }
                 }
@@ -188,7 +188,12 @@ impl Command {
                     let mut reasons = vec![];
 
                     if let Some(ref item_id) = exit.required_item_id {
-                        if !game.player.inventory.iter().any(|i| &i.id == item_id) {
+                        if !game
+                            .player
+                            .inventory
+                            .iter()
+                            .any(|i| i.id.to_lowercase() == item_id.to_lowercase())
+                        {
                             let label = game
                                 .world
                                 .items
@@ -253,10 +258,19 @@ impl Command {
 
             Command::Take(item_id) => {
                 let room = game.current_room_mut();
-                if let Some(pos) = room.items.iter().position(|i| i.id == *item_id) {
+                if let Some(pos) = room
+                    .items
+                    .iter()
+                    .position(|i| i.id.to_lowercase() == *item_id.to_lowercase())
+                {
                     let item = room.items.remove(pos);
                     game.player.inventory.push(item.clone());
-                    if let Some(def) = game.world.items.iter().find(|it| it.id == item.id) {
+                    if let Some(def) = game
+                        .world
+                        .items
+                        .iter()
+                        .find(|it| it.id.to_lowercase() == item.id.to_lowercase())
+                    {
                         game.player.add_points(def.points);
                         println!("{}", "[EXTRACTING ITEM]".green().bold());
                         std::thread::sleep(std::time::Duration::from_millis(200));
@@ -471,7 +485,11 @@ impl Command {
             Command::Attack(enemy_id) => {
                 let room = game.current_room_mut();
 
-                if let Some(pos) = room.enemies.iter().position(|e| e.id == *enemy_id) {
+                if let Some(pos) = room
+                    .enemies
+                    .iter()
+                    .position(|e| e.id.to_lowercase() == *enemy_id.to_lowercase())
+                {
                     let enemy_ref = room.enemies.remove(pos);
                     if let Some(enemy_def) =
                         game.world.enemies.iter().find(|e| e.id == enemy_ref.id)
