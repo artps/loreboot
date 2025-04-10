@@ -1,0 +1,491 @@
+{
+  "rooms": [
+    {
+      "id": 0,
+      "name": "Lobby",
+      "description": "A quiet terminal lounge. Broken LED panels flicker with old welcome messages. The reception kiosk blinks idly.",
+      "points": 10,
+      "exits": [
+        { "direction": "north", "to": 1 }
+      ],
+      "items": [],
+      "enemies": [],
+      "npcs": [{ "id": "receptionist_clara" }],
+      "lore": [
+        {
+          "id": "corpse_dev",
+          "name": "DevCorpse42",
+          "description": "The shriveled remains of a systems engineer. ID badge melted into neck.",
+          "logs": [
+            "[log-0x04]: CPU temps climbing. Power loop unstable.",
+            "[log-0x05]: CoreDaemon not responding... shutting it down manually.",
+            "[log-0x06]: I think it heard me."
+          ],
+          "hidden": false
+        },
+        {
+          "id": "burned_socket",
+          "name": "Melted I/O Port",
+          "description": "A deformed I/O socket. It's humming.",
+          "logs": [
+            "[scan:0x1A3]: Firmware remnants detected.",
+            "[scan:0x1A4]: Origin trace: root_dev/ghost.bin"
+          ],
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "IT Wing",
+      "description": "Rows of towering server racks, most dark. A faint burning smell. The hum of unstable power grows louder here.",
+      "points": 20,
+      "exits": [
+        { "direction": "south", "to": 0 },
+        { "direction": "east", "to": 2 }
+      ],
+      "items": [
+        { "id": "cooling_gel" }
+      ],
+      "enemies": [
+        { "id": "overheating_server" }
+      ],
+      "npcs": [
+        { "id": "intern_kyle" }
+      ],
+      "lore": []
+    },
+    {
+      "id": 2,
+      "name": "Break Room",
+      "description": "Crushed coffee pods, cracked mugs, and half-eaten snacks. A corkboard holds forgotten coupons and mysterious notes.",
+      "points": 5,
+      "exits": [
+        { "direction": "west", "to": 1 },
+        { "direction": "north", "to": 3 }
+      ],
+      "items": [
+        { "id": "coupon_10" },
+        { "id": "forgotten_build_usb" }
+      ],
+      "enemies": [],
+      "npcs": [],
+      "lore": []
+    },
+    {
+      "id": 3,
+      "name": "Dev Dungeon",
+      "description": "Dark and damp. Abandoned workstations run ancient builds. Shadowy figures hover over old commit logs.",
+      "points": 30,
+      "exits": [
+        { "direction": "south", "to": 2 },
+        { "direction": "north", "to": 4 }
+      ],
+      "items": [],
+      "enemies": [
+        { "id": "ci_specter" }
+      ],
+      "npcs": [
+        { "id": "devghost42" }
+      ],
+      "lore": []
+    },
+    {
+      "id": 4,
+      "name": "Cold Storage",
+      "description": "Frost clings to the server enclosures. Legacy tapes and sealed drives sit silently. Everything smells like old bytes.",
+      "points": 40,
+      "exits": [
+        { "direction": "south", "to": 3 },
+        { "direction": "east", "to": 5 }
+      ],
+      "items": [
+        { "id": "cryo_disk" },
+        { "id": "encrypted_credentials" }
+      ],
+      "enemies": [],
+      "npcs": [],
+      "lore": []
+    },
+    {
+      "id": 5,
+      "name": "Power Plant",
+      "description": "Arcs of electricity snap between busbars. The main generator whirs with fluctuating intensity. A shadow shifts in the sparks.",
+      "points": 50,
+      "exits": [
+        { "direction": "west", "to": 4 },
+        { "direction": "north", "to": 6 }
+      ],
+      "items": [],
+      "enemies": [
+        { "id": "kernel_panik" }
+      ],
+      "npcs": [],
+      "lore": []
+    },
+    {
+      "id": 6,
+      "name": "The DMZ",
+      "description": "A glowing mesh of network firewalls, routing tables, and traffic shaping daemons. The air smells like scorched JSON.",
+      "points": 60,
+      "exits": [
+        { "direction": "south", "to": 5 },
+        { "direction": "north", "to": 7 }
+      ],
+      "items": [
+        { "id": "firewall_exception" },
+        { "id": "arc_badge" }
+      ],
+      "enemies": [
+        { "id": "blackhole_switch" }
+      ],
+      "npcs": [
+        { "id": "arc_agent" }
+      ],
+      "lore": []
+    },
+    {
+      "id": 7,
+      "name": "DataCore",
+      "description": "Everything is quiet. The CoreRouter floats mid-air, humming like a heart. Cables hang like neural pathways. Old Root waits.",
+      "points": 100,
+      "exits": [
+        { "direction": "south", "to": 6 }
+      ],
+      "items": [
+        { "id": "core_activation_key" }
+      ],
+      "enemies": [
+        { "id": "core_daemon" }
+      ],
+      "npcs": [
+        { "id": "old_root" }
+      ],
+      "lore": []
+    }
+  ],
+  "quests": [
+    {
+      "id": "fixItDisaster",
+      "name": "Fix the IT Disaster",
+      "description": "Defeat the overheating server and report back to Clara.",
+      "points": 100,
+      "current_step": 0,
+      "completed": false,
+      "steps": [
+        {
+          "id": "defeat-the-overheating-server",
+          "description": "Defeat the Overheating Server",
+          "action": "DefeatEnemy",
+          "target_id": "overheating_server",
+          "completed": false
+        },
+        {
+          "id": "talk-to-clara-in-the-lobby",
+          "description": "Talk to Clara in the Lobby",
+          "action": "TalkNpc",
+          "target_id": "receptionist_clara",
+          "completed": false
+        }
+      ]
+    },
+    {
+      "id": "getSudoToken",
+      "name": "Obtain the Sudo Token",
+      "description": "Convince DevGhost42 to give up the compressed sudo token.",
+      "points": 120,
+      "current_step": 0,
+      "completed": false,
+      "steps": [
+        {
+          "id": "defeat-the-ci-specter",
+          "description": "Defeat the CI Specter",
+          "action": "DefeatEnemy",
+          "target_id": "ci_specter",
+          "completed": false
+        },
+        {
+          "id": "talk-to-dev-ghost-42-in-the-dev-dungeon",
+          "description": "Talk to DevGhost42 in the Dev Dungeon",
+          "action": "TalkNpc",
+          "target_id": "devghost42",
+          "completed": false
+        },
+        {
+          "id": "collect-the-sudo-token",
+          "description": "Collect the Sudo Token",
+          "action": "CollectItem",
+          "target_id": "compressed_sudo_token",
+          "completed": false
+        }
+      ]
+    },
+    {
+      "id": "restoreBackupAccess",
+      "name": "Restore Backup Access",
+      "description": "Recover cryo storage credentials from Cold Storage.",
+      "points": 90,
+      "current_step": 0,
+      "completed": false,
+      "steps": [
+        {
+          "id": "collect-the-cryo-disk",
+          "description": "Collect the Cryo Disk",
+          "action": "CollectItem",
+          "target_id": "cryo_disk",
+          "completed": false
+        },
+        {
+          "id": "collect-the-encrypted-credentials",
+          "description": "Collect the Encrypted Credentials",
+          "action": "CollectItem",
+          "target_id": "encrypted_credentials",
+          "completed": false
+        }
+      ]
+    },
+    {
+      "id": "restartPowerPlant",
+      "name": "Restart the Power Plant",
+      "description": "Defeat Kernel Panik and reroute emergency power.",
+      "points": 130,
+      "current_step": 0,
+      "completed": false,
+      "steps": [
+        {
+          "id": "defeat-kernel-panik",
+          "description": "Defeat Kernel Panik",
+          "action": "DefeatEnemy",
+          "target_id": "kernel_panik",
+          "completed": false
+        }
+      ]
+    },
+    {
+      "id": "dmzClearance",
+      "name": "Gain DMZ Clearance",
+      "description": "Convince ARC Agent to trust you and enter the DMZ.",
+      "points": 80,
+      "current_step": 0,
+      "completed": false,
+      "steps": [
+        {
+          "id": "talk-to-arc-agent",
+          "description": "Talk to ARC Agent",
+          "action": "TalkNpc",
+          "target_id": "arc_agent",
+          "completed": false
+        },
+        {
+          "id": "collect-arc-badge",
+          "description": "Collect ARC Badge",
+          "action": "CollectItem",
+          "target_id": "arc_badge",
+          "completed": false
+        }
+      ]
+    },
+    {
+      "id": "activateCoreRouter",
+      "name": "Activate the CoreRouter",
+      "description": "Defeat the CoreDaemon and speak to Old Root to decide the fate of the system.",
+      "points": 200,
+      "current_step": 0,
+      "completed": false,
+      "steps": [
+        {
+          "id": "defeat-the-coredaemon",
+          "description": "Defeat the CoreDaemon",
+          "action": "DefeatEnemy",
+          "target_id": "core_daemon",
+          "completed": false
+        },
+        {
+          "id": "talk-to-old-root",
+          "description": "Talk to Old Root",
+          "action": "TalkNpc",
+          "target_id": "old_root",
+          "completed": false
+        },
+        {
+          "id": "colelct-core-activation-key",
+          "description": "Collect Core Activation Key",
+          "action": "CollectItem",
+          "target_id": "core_activation_key",
+          "completed": false
+        }
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "cooling_gel",
+      "name": "Cooling Gel Pack",
+      "description": "Cools overheating server nodes. Restores 15 HP.",
+      "type": "artifact",
+      "effect": "restore_hp",
+      "effect_amount": 15,
+      "discount": null,
+      "points": 25
+    },
+    {
+      "id": "coupon_10",
+      "name": "Serverness 10% Coupon",
+      "description": "A faded printout that still works. 10% off your next deployment.",
+      "type": "coupon",
+      "effect": null,
+      "effect_amount": null,
+      "discount": 10,
+      "points": 50
+    },
+    {
+      "id": "forgotten_build_usb",
+      "name": "USB of Forgotten Build",
+      "description": "Contains half-finished unit tests from 2011. Might be useful to someone.",
+      "type": "normal",
+      "effect": null,
+      "effect_amount": null,
+      "discount": null,
+      "points": 10
+    },
+    {
+      "id": "cryo_disk",
+      "name": "Cryo Disk",
+      "description": "A frozen storage platter with legacy AI backups. Still reads NTFS.",
+      "type": "normal",
+      "effect": null,
+      "effect_amount": null,
+      "discount": null,
+      "points": 20
+    },
+    {
+      "id": "encrypted_credentials",
+      "name": "Encrypted Credentials",
+      "description": "Old backup access keys in an unknown format. You’ll need these.",
+      "type": "normal",
+      "effect": null,
+      "effect_amount": null,
+      "discount": null,
+      "points": 15
+    },
+    {
+      "id": "compressed_sudo_token",
+      "name": "Compressed Sudo Token",
+      "description": "Highly compressed admin powers. Use wisely.",
+      "type": "artifact",
+      "effect": null,
+      "effect_amount": null,
+      "discount": null,
+      "points": 30
+    },
+    {
+      "id": "firewall_exception",
+      "name": "Firewall Rule Exception",
+      "description": "Punches a temporary hole through DMZ restrictions.",
+      "type": "normal",
+      "effect": null,
+      "effect_amount": null,
+      "discount": null,
+      "points": 20
+    },
+    {
+      "id": "arc_badge",
+      "name": "ARC Network Badge",
+      "description": "Authentication token recognized by deep DMZ routers.",
+      "type": "normal",
+      "effect": null,
+      "effect_amount": null,
+      "discount": null,
+      "points": 15
+    },
+    {
+      "id": "core_activation_key",
+      "name": "Core Activation Key",
+      "description": "A shimmering shard with root-level clearance. Final step required.",
+      "type": "artifact",
+      "effect": null,
+      "effect_amount": null,
+      "discount": null,
+      "points": 100
+    }
+  ],
+  "enemies": [
+    {
+      "id": "overheating_server",
+      "name": "Overheating Server",
+      "description": "A half-melted 2U rack unit throwing sparks and screaming in syslogs.",
+      "hp": 18,
+      "strength": 4,
+      "points": 40
+    },
+    {
+      "id": "ci_specter",
+      "name": "CI Specter",
+      "description": "An endless ghost loop of failing builds, haunting DevOps for eternity.",
+      "hp": 22,
+      "strength": 5,
+      "points": 60
+    },
+    {
+      "id": "kernel_panik",
+      "name": "Kernel Panik",
+      "description": "It howls with stack traces and emits high-voltage coredumps.",
+      "hp": 30,
+      "strength": 6,
+      "points": 80
+    },
+    {
+      "id": "blackhole_switch",
+      "name": "Blackhole Switch",
+      "description": "It routes all hope to /dev/null. Its ports bend light.",
+      "hp": 26,
+      "strength": 5,
+      "points": 75
+    },
+    {
+      "id": "core_daemon",
+      "name": "CoreDaemon",
+      "description": "The last guardian of Serverness Core. It speaks in raw opcodes.",
+      "hp": 40,
+      "strength": 7,
+      "points": 150
+    }
+  ],
+  "npcs": [
+    {
+      "id": "receptionist_clara",
+      "name": "Receptionist Clara",
+      "dialogue": "Please, something's wrong in the IT Wing — it’s burning up again!",
+      "quest_to_give": "fixItDisaster",
+      "points": 5
+    },
+    {
+      "id": "intern_kyle",
+      "name": "Intern Kyle",
+      "dialogue": "Nobody told me the server room would be haunted. I'm not paid enough for this.",
+      "quest_to_give": null,
+      "points": 2
+    },
+    {
+      "id": "devghost42",
+      "name": "DevGhost42",
+      "dialogue": "I won't give up my sudo token... not until the build loop ends.",
+      "quest_to_give": "getSudoToken",
+      "points": 10
+    },
+    {
+      "id": "arc_agent",
+      "name": "ARC Agent",
+      "dialogue": "Clearance required. If you prove trustworthy, I may let you through.",
+      "quest_to_give": "dmzClearance",
+      "points": 8
+    },
+    {
+      "id": "old_root",
+      "name": "Old Root",
+      "dialogue": "You’ve come far. Are you sure you want to reactivate the Core?",
+      "quest_to_give": "activateCoreRouter",
+      "points": 15
+    }
+  ]
+}
