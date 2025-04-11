@@ -652,13 +652,13 @@
     },
 
     {
-  "id": "core_terminal_input",
-  "name": "Final Decision Terminal",
-  "description": "A sleek console built into the floor. Its screen reads: `[INPUT REQUIRED]`.",
-  "type": "system",
-  "points": 0,
-  "effects": null
-}
+      "id": "core_terminal_input",
+      "name": "Final Decision Terminal",
+      "description": "A sleek console built into the floor. Its screen reads: `[INPUT REQUIRED]`.",
+      "type": "system",
+      "points": 0,
+      "effects": null
+    }
   ],
 
   "enemies": [

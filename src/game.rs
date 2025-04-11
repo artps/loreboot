@@ -7,6 +7,7 @@ use chrono::Utc;
 use crossterm::style::Stylize;
 use std::fs::File;
 use std::io::{Write, stdin, stdout};
+use std::{thread, time::Duration};
 
 pub struct Game {
     pub world: World,
@@ -162,8 +163,6 @@ fn write_ending_log(choice: &str) {
 
     file.write_all(log.as_bytes()).unwrap();
 }
-
-use std::{thread, time::Duration};
 
 fn terminal_outro() {
     let lines = [
