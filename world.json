@@ -649,7 +649,16 @@
       "type": "cursed",
       "points": 20,
       "effects": { "hp": -10, "luck": -2 }
-    }
+    },
+
+    {
+  "id": "core_terminal_input",
+  "name": "Final Decision Terminal",
+  "description": "A sleek console built into the floor. Its screen reads: `[INPUT REQUIRED]`.",
+  "type": "system",
+  "points": 0,
+  "effects": null
+}
   ],
 
   "enemies": [
@@ -941,6 +950,13 @@
           "description": "Obtain the Core Activation Key",
           "action": "CollectItem",
           "target_id": "core_activation_key",
+          "completed": false
+        },
+        {
+          "id": "make-final-decision",
+          "description": "Input your final decision at the terminal",
+          "action": "UseTerminal",
+          "target_id": "core_terminal_input",
           "completed": false
         }
       ]

@@ -514,7 +514,35 @@ impl Command {
 
             Command::Use(item_id) => {
                 if game.player.use_item(item_id, &game.world) {
-                    // Everything handled inside use_item()
+                    return;
+                }
+
+                // PREVENT borrow conflict by splitting access early
+                let world_items = &game.world.items;
+                let room = game.current_room();
+
+                if let Some(def_item) = room
+                    .items
+                    .iter()
+                    .find(|i| i.id.eq_ignore_ascii_case(item_id))
+                    .and_then(|room_item| {
+                        world_items
+                            .iter()
+                            .find(|def| def.id.eq_ignore_ascii_case(&room_item.id))
+                    })
+                {
+                    match def_item.id.as_str() {
+                        "core_terminal_input" => {
+                            game.trigger_final_terminal();
+                        }
+                        _ => {
+                            println!(
+                                "{} {}",
+                                "[CANNOT USE]".red(),
+                                def_item.name.to_uppercase().dim()
+                            );
+                        }
+                    }
                 } else {
                     println!(
                         "{} {}",

@@ -29,6 +29,9 @@ fn main() {
     let world = world::load_world(path.to_str().unwrap());
     let game = Rc::new(RefCell::new(game::Game::new(world)));
 
+    /*game.borrow_mut().trigger_final_terminal();
+    std::process::exit(0);*/
+
     let prompt = GamePrompt {
         game: Rc::clone(&game),
     };
@@ -54,9 +57,11 @@ fn main() {
         "type 'help' for a list of valid commands\n".green().dim()
     );
 
-    // commands::Command::Look.handle(&mut game.borrow_mut());
-
     loop {
+        if !game.borrow().running {
+            break;
+        }
+
         match line_editor.read_line(&prompt) {
             Ok(Signal::Success(input)) => {
                 let command = commands::Command::parse(&input);
@@ -74,11 +79,13 @@ fn main() {
                     break;
                 }
             }
+
             Ok(Signal::CtrlC | Signal::CtrlD) => {
                 println!("{}", "\n[LINK TERMINATED] User exited.".green().dim());
 
                 break;
             }
+
             _ => continue,
         }
     }

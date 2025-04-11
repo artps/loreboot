@@ -129,4 +129,5 @@ pub enum QuestAction {
     DefeatEnemy,
     CollectItem,
     TalkNpc,
+    UseTerminal,
 }
