@@ -264,14 +264,17 @@ impl Command {
                     .position(|i| i.id.to_lowercase() == *item_id.to_lowercase())
                 {
                     let item = room.items.remove(pos);
-                    game.player.inventory.push(item.clone());
+
                     if let Some(def) = game
                         .world
                         .items
                         .iter()
                         .find(|it| it.id.to_lowercase() == item.id.to_lowercase())
                     {
+                        game.player.add_item(&item.id, &game.world); // <-- applies trait_mods too
+
                         game.player.add_points(def.points);
+
                         println!("{}", "[EXTRACTING ITEM]".green().bold());
                         std::thread::sleep(std::time::Duration::from_millis(200));
 
@@ -286,17 +289,16 @@ impl Command {
                             "[POINT INJECTION]".green(),
                             def.points.to_string().green()
                         );
-                        let item_id = item.id.clone();
 
                         quest::handle_event(
                             QuestAction::CollectItem,
-                            &item_id,
+                            &item.id,
                             &mut game.quests,
                             &mut game.player,
                         );
                     }
                 } else {
-                    println!("Item not found.");
+                    println!("{}", "[ITEM NOT FOUND]".red().bold());
                 }
             }
 
@@ -357,7 +359,7 @@ impl Command {
             }
 
             Command::Inventory => {
-                game.player.list_inventory();
+                game.player.list_inventory(&game.world);
             }
 
             Command::Status => {

@@ -9,6 +9,7 @@ mod world;
 use crossterm::{
     execute,
     style::Stylize,
+    style::{Color, SetBackgroundColor},
     terminal::{Clear, ClearType},
 };
 use figlet_rs::FIGfont;
@@ -23,7 +24,7 @@ use ui::prompt::GamePrompt;
 fn main() {
     let mut line_editor = Reedline::create();
 
-    let path = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("world2.json");
+    let path = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("world.json");
 
     let world = world::load_world(path.to_str().unwrap());
     let game = Rc::new(RefCell::new(game::Game::new(world)));

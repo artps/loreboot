@@ -61,10 +61,20 @@ pub struct Item {
     pub description: String,
     #[serde(rename = "type")]
     pub item_type: String,
-    pub effect: Option<String>,
-    pub effect_amount: Option<i32>,
-    pub discount: Option<u32>,
     pub points: u32,
+    pub effects: Option<Effects>,
+}
+
+#[derive(Debug, Deserialize, Clone)]
+pub struct Effects {
+    pub hp: Option<i32>,
+    pub strength: Option<i32>,
+    pub intelligence: Option<i32>,
+    pub persistence: Option<i32>,
+    pub agility: Option<i32>,
+    pub charisma: Option<i32>,
+    pub luck: Option<i32>,
+    pub wisdom: Option<i32>,
 }
 
 // ========== Enemies ==========

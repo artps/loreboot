@@ -95,10 +95,13 @@ pub fn player_turn<R: Rng>(
 
     match input.as_str() {
         "attack" => {
-            let hit_chance = 0.9 - player.agility as f64 * 0.01;
+            let hit_chance = 0.9 - player.agility as f64 * 0.01 + (player.luck as f64 * 0.005);
+
             if rng.random_bool(hit_chance) {
                 let base = rng.random_range(3..8) + player.strength / 2;
-                let crit = rng.random_bool(0.1 + player.luck as f64 * 0.01);
+                let crit_chance =
+                    0.1 + (player.luck as f64 * 0.01) + (player.intelligence as f64 * 0.005);
+                let crit = rng.random_bool(crit_chance);
                 let damage = if crit { base * 2 } else { base };
 
                 *enemy_hp = enemy_hp.saturating_sub(damage);
@@ -121,7 +124,9 @@ pub fn player_turn<R: Rng>(
         }
 
         "flee" => {
-            if rng.random_bool(0.5) {
+            let flee_chance = 0.5 + (player.luck as f64 * 0.02);
+
+            if rng.random_bool(flee_chance) {
                 println!("{}", "[EVADE SUCCESSFUL] Exit granted.".green().bold());
 
                 return Some(false); // flee = survive but fail combat
