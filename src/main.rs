@@ -39,16 +39,16 @@ fn main() {
         game: Rc::clone(&game),
     };
 
+    music(session.clone());
     clear_screen();
     boot_sequence();
-    clear_screen();
-    music(session.clone());
     clear_screen();
     prologue();
     clear_screen();
 
     let standard_font = FIGfont::standard().unwrap();
-    let figure = standard_font.convert("Serverness");
+    let figure = standard_font.convert("lore://boot");
+
     if let Some(ref banner) = figure {
         println!("{}", banner.to_string().green());
     }
