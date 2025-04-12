@@ -1,4 +1,4 @@
-use crate::{battle, game::Game, quest, structs::QuestAction};
+use crate::{battle, game::Game, music, quest, structs::QuestAction};
 use crossterm::style::Stylize;
 
 pub enum Command {
@@ -44,9 +44,13 @@ impl Command {
     }
 
     pub fn handle(&self, game: &mut Game) {
+        let session = game.session.clone();
+
         match self {
             Command::Look => {
                 let room = game.current_room();
+
+                music::send_event(session.clone(), &format!("room:{}", room.id));
 
                 // Room Header
                 println!("{}", "[SCAN COMPLETE]".green().bold());
@@ -160,6 +164,7 @@ impl Command {
 
                     game.current_room = exit.to;
                     let room = game.current_room();
+                    music::send_event(session.clone(), &format!("room:{}", room.id));
 
                     println!("{}", "[TRACE ROUTE]".bold().green());
                     println!(
@@ -486,6 +491,8 @@ impl Command {
 
             Command::Attack(enemy_id) => {
                 let room = game.current_room_mut();
+                let room_id = &format!("room:{}", room.id.clone());
+                // let session = game.session_mut();
 
                 if let Some(pos) = room
                     .enemies
@@ -496,8 +503,12 @@ impl Command {
                     if let Some(enemy_def) =
                         game.world.enemies.iter().find(|e| e.id == enemy_ref.id)
                     {
+                        music::send_event(session.clone(), &format!("battle:{}", enemy_def.id));
+
                         let won = battle::start_battle(&mut game.player, enemy_def, &game.world);
                         if won {
+                            music::send_event(session.clone(), room_id);
+
                             game.player.add_points(enemy_def.points);
                             quest::handle_event(
                                 QuestAction::DefeatEnemy,

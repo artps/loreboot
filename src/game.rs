@@ -8,6 +8,15 @@ use crossterm::style::Stylize;
 use std::fs::File;
 use std::io::{Write, stdin, stdout};
 use std::{thread, time::Duration};
+use uuid::Uuid;
+
+use serde::Serialize;
+use ureq;
+
+#[derive(Serialize)]
+struct MusicEvent<'a> {
+    event: &'a str,
+}
 
 pub struct Game {
     pub world: World,
@@ -15,15 +24,17 @@ pub struct Game {
     pub current_room: usize,
     pub quests: Vec<Quest>,
     pub running: bool,
+    pub session: Uuid,
 }
 
 impl Game {
-    pub fn new(world: World) -> Self {
+    pub fn new(world: World, session: Uuid) -> Self {
         Self {
             player: Player::new(),
             current_room: 0, // Start in the Lobby
             quests: Vec::new(),
             running: true,
+            session,
             world,
         }
     }

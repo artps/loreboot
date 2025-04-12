@@ -1,6 +1,7 @@
 mod battle;
 mod commands;
 mod game;
+mod music;
 mod player;
 mod quest;
 mod structs;
@@ -14,8 +15,9 @@ use crossterm::{
 };
 use figlet_rs::FIGfont;
 use reedline::{Reedline, Signal};
-use std::{cell::RefCell, rc::Rc};
+use std::{cell::RefCell, process::Command, rc::Rc};
 use std::{io::stdout, path::PathBuf};
+use uuid::Uuid;
 mod ui;
 use std::thread::sleep;
 use std::time::Duration;
@@ -26,8 +28,9 @@ fn main() {
 
     let path = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("world.json");
 
+    let session = Uuid::now_v7();
     let world = world::load_world(path.to_str().unwrap());
-    let game = Rc::new(RefCell::new(game::Game::new(world)));
+    let game = Rc::new(RefCell::new(game::Game::new(world, session)));
 
     /*game.borrow_mut().trigger_final_terminal();
     std::process::exit(0);*/
@@ -39,6 +42,8 @@ fn main() {
     clear_screen();
     boot_sequence();
     clear_screen();
+    music(session.clone());
+    clear_screen();
     prologue();
     clear_screen();
 
@@ -47,6 +52,8 @@ fn main() {
     if let Some(ref banner) = figure {
         println!("{}", banner.to_string().green());
     }
+
+    music::send_event(session.clone(), "prologue");
 
     println!(
         "{}",
@@ -127,6 +134,25 @@ fn boot_sequence() {
 
     println!("{}", "[SYSTEM READY]".green().bold());
     sleep(Duration::from_millis(500));
+}
+
+fn music(session: Uuid) {
+    let lines = [
+        "",
+        &format!("[AUDIO] Make the game experience better with music:"),
+        &format!(
+            "[AUDIO] > http://srvn.sh:3000/boot/?session={}",
+            session.to_string()
+        ),
+    ];
+
+    for line in lines {
+        println!("{}", line.green());
+        sleep(Duration::from_millis(45));
+    }
+    println!();
+    println!("{}", "[PRESS ENTER TO CONTINUE]".green().bold());
+    let _ = std::io::stdin().read_line(&mut String::new());
 }
 
 fn prologue() {
