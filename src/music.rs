@@ -8,7 +8,7 @@ struct MusicEvent<'a> {
 }
 
 pub fn send_event(session_id: Uuid, event: &str) {
-    let url = format!("http://srvn.sh:3000/session/{}", session_id);
+    let url = format!("https://srvn.sh/session/{}", session_id);
     let payload = MusicEvent { event };
 
     let res = ureq::post(&url)

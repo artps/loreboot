@@ -141,7 +141,7 @@ fn music(session: Uuid) {
         "",
         &format!("[AUDIO] Make the game experience better with music:"),
         &format!(
-            "[AUDIO] > http://srvn.sh:3000/boot/?session={}",
+            "[AUDIO] > http://srvn.sh/boot/?session={}",
             session.to_string()
         ),
     ];
