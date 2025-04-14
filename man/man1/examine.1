@@ -1,0 +1,43 @@
+EXAMINE(1)                  lore://boot Manual                 EXAMINE(1)
+
+NAME
+    examine - inspect a specific item or lore object
+
+SYNOPSIS
+    examine <target>
+
+DESCRIPTION
+    The `examine` command inspects a named item, lore log, or terminal
+    object in the current room or inventory. This provides full detail,
+    including:
+
+        • Descriptions
+        • Embedded log content
+        • Triggered effects (if present)
+        • Narrative voiceprints or system echoes
+
+    Unlike `scan`, which reveals all hidden logs at once, `examine`
+    allows targeted analysis — and is often safer. But not always.
+
+RULES
+    • You may examine:
+        - Items in the room
+        - Items in your inventory
+        - Visible lore logs
+    • Hidden logs must be found using `scan` first
+
+DANGERS
+    • Some logs contain `trigger_effects`
+      These may:
+        - Spawn enemies
+        - Alter your quest state
+        - Apply corruption to your user context
+    • Reading the wrong memory can overwrite your own
+
+EXAMPLES
+    > examine debugger_badge
+    > examine welcome_protocol
+    > examine corpse_dev
+
+SEE ALSO
+    man scan(1), man inventory(1), man status(1), man lore(1)

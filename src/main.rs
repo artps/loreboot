@@ -61,7 +61,10 @@ fn main() {
     );
     println!(
         "{}",
-        "type 'help' for a list of valid commands\n".green().dim()
+        "[BOOT COMPLETE] Type `help` for commands. Type `man lore` to understand what you're doing.
+\n"
+        .green()
+        .dim()
     );
 
     loop {

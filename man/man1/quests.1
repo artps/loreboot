@@ -1,0 +1,41 @@
+QUESTS(1)                   lore://boot Manual                  QUESTS(1)
+
+NAME
+    quests - display current objective sequences and progress
+
+SYNOPSIS
+    quests
+
+DESCRIPTION
+    The `quests` command lists all active operations currently known
+    to the user. Each quest contains one or more steps, which must be
+    completed in order.
+
+    Step types include:
+
+        DefeatEnemy     - eliminate a threat
+        CollectItem     - acquire a specific object
+        TalkNpc         - engage with a specific memory
+        ReadLore        - examine a hidden log
+        UseTerminal     - make a final decision
+
+NOTES
+    • Completing steps often unlocks rooms, items, or other quests
+    • Some quests progress silently as a result of scanning or reading
+
+EXAMPLES
+    > quests
+
+    Active:
+    - fixItDisaster
+        [✓] defeat overheating_server
+        [✓] read server_logs_dump
+        [ ] defeat syslog_wraith
+        [ ] talk to clara
+
+    - getSudoToken
+        [✓] purge CI specter
+        [✓] talk to devghost42
+
+SEE ALSO
+    man status(1), man lore(1), man endings(5)

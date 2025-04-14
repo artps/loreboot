@@ -1,0 +1,40 @@
+GO(1)                       lore://boot Manual                        GO(1)
+
+NAME
+    go - traverse to an adjacent system node
+
+SYNOPSIS
+    go <direction>
+
+DESCRIPTION
+    The `go` command allows you to navigate the network of decaying
+    rooms that make up Serverness. Each room defines a set of logical
+    or spatial exits.
+
+    Supported directions include:
+
+        north   south   east   west
+        up      down
+
+    Movement is instant, but not always harmless. Transitions may
+    trigger memory events, enemy encounters, or decision forks.
+
+LOCKED PATHS
+    Certain exits are locked behind system logic or protocol layers.
+    These may require:
+
+        • Specific quest steps
+        • Key items (badges, credentials, tokens)
+        • Admin-level triggers or irreversible decisions
+
+EXAMPLES
+    > go north
+    > go down
+    > go east
+
+TIPS
+    • Use `look` to list available exits from the current room.
+    • Some exits will not be shown until unlocked via lore or quests.
+
+SEE ALSO
+    man look(1), man quests(1), man status(1)

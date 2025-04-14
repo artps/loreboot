@@ -1,0 +1,41 @@
+SCAN(1)                     lore://boot Manual                    SCAN(1)
+
+NAME
+    scan - detect hidden logs in the current system node
+
+SYNOPSIS
+    scan
+
+DESCRIPTION
+    The `scan` command performs a low-level forensic pass through the
+    current node’s memory space, revealing hidden or corrupted logs
+    (also known as `lore objects`) that are not visible to `look`.
+
+    These logs may include:
+        • Corrupted commit traces
+        • Obsolete diagnostics
+        • Redacted protocol entries
+        • Personal memories from lost users
+
+    Some logs contain embedded effects that will alter the system when
+    read — including enemy spawns, unlocks, or terminal reactions.
+
+BEHAVIOR
+    • Scanning reveals all hidden lore in a room at once.
+    • Any trigger effects defined on those logs will activate instantly.
+    • Scanned logs are displayed in full but are not reprintable.
+
+WARNINGS
+    • Some logs may lie.
+    • Some logs may recognize you.
+    • You may not like what you find.
+
+EXAMPLES
+    > scan
+    [TRACE FOUND] JANITOR_MEMO
+    > "Told 'em it's not just heat. It's... awake."
+    [TRACE FOUND] GHOST_FRAGMENT
+    > "You are the threat."
+
+SEE ALSO
+    man examine(1), man look(1), man quests(1)

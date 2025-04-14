@@ -1,0 +1,61 @@
+LORE(5)                     lore://boot Manual                   LORE(5)
+
+NAME
+    lore - memory fragments, ghost logs, and corrupted traces
+
+DESCRIPTION
+    Lore in Serverness represents non-interactive data fragments—
+    logs, messages, boot errors, and user thoughts—often embedded in
+    physical objects or systems.
+
+    Each lore object has:
+        • A name and description
+        • One or more logs (strings or hex payloads)
+        • A visibility state (visible or hidden)
+        • Optional triggers or effects
+
+VISIBILITY
+
+    visible
+        These logs appear when using `look` and can be examined freely.
+
+    hidden
+        These are only revealed with `scan`.
+
+    You may `examine` either type once visible to activate effects.
+
+TRIGGERS
+
+    Lore may carry embedded fields that change the game state:
+
+        trigger_effect
+            Executes a world-altering event (e.g., spawn enemy,
+            weaken boss, unlock ending)
+
+        hint_for
+            Soft narrative link to a quest or log trail
+
+        reveals
+            Discloses a keyword or clue (e.g., a password)
+
+        corrupts
+            Tags the player or memory context as compromised
+
+BEHAVIOR
+
+    • Trigger effects activate automatically upon `scan` or `examine`
+    • Lore is read-only but not without consequence
+
+EXAMPLES
+
+    > examine log_fragment_ghost42
+    > scan
+
+TIPS
+
+    • Lore can spawn enemies or reward understanding
+    • Not all logs are true
+    • Some logs recognize you
+
+SEE ALSO
+    man scan(1), man examine(1), man quests(5), man endings(5)

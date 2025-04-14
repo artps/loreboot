@@ -1,0 +1,62 @@
+QUESTS(5)                   lore://boot Manual                 QUESTS(5)
+
+NAME
+    quests - operational threads tracked by the system
+
+DESCRIPTION
+    Quests are structured sets of objectives that guide your traversal
+    through Serverness. Each quest represents a root issue, failure
+    state, or mystery unfolding in fragments.
+
+    Quests are composed of ordered steps. Completion of one step
+    unlocks the next. All steps are triggered by in-world interactions.
+
+STEP TYPES
+
+    DefeatEnemy
+        Requires defeating a specific enemy.
+        Example: defeat-the-ci-specter
+
+    CollectItem
+        Requires acquiring a specific item.
+        Example: collect-the-encrypted-credentials
+
+    TalkNpc
+        Requires speaking to an NPC.
+        Example: talk-to-devghost42
+
+    ReadLore
+        Requires scanning or examining a specific log.
+        Example: inspect-server-logs
+
+    UseTerminal
+        Requires executing a final decision input.
+
+QUEST MECHANICS
+
+    • Quests begin automatically when triggered by certain NPCs or actions
+    • Progress is tracked silently unless viewed via `quests`
+    • Quest completion may unlock rooms, drop items, or affect endings
+
+INTERACTIONS
+
+    • Quests are progressed through normal gameplay
+    • Reading a hidden lore log may fulfill a `ReadLore` step
+    • Talking to a ghost may progress two quests at once
+
+TIPS
+
+    • Some quests appear linear. They are not.
+    • Some quests complete when you are not aware you're in one.
+    • You may be a quest in someone else's log.
+
+EXAMPLES
+
+    > quests
+    Active:
+      - getSudoToken
+          [✓] purge CI specter
+          [✓] talk to devghost42
+
+SEE ALSO
+    man quests(1), man status(1), man endings(5)

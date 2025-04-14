@@ -1,0 +1,39 @@
+TALK(1)                     lore://boot Manual                    TALK(1)
+
+NAME
+    talk - initiate dialogue with a system-resident entity
+
+SYNOPSIS
+    talk <npc_id>
+
+DESCRIPTION
+    The `talk` command allows you to speak with an NPC present in the
+    current room. NPCs are fragments of memory, orphaned root agents,
+    or corrupted user ghosts. Some are lucid. Others loop.
+
+    Dialogue is limited but reactive. Speaking to certain NPCs may:
+
+        • Progress a quest step
+        • Grant access tokens or items
+        • Reveal critical narrative information
+        • Trigger irreversible events
+
+    Most NPCs are one-time interactions. Some remember if you've come
+    back. Others forget you every time.
+
+RULES
+    • Use `look` to see available NPCs in the current room
+    • Use their exact ID (e.g., `talk devghost42`)
+    • Multiple NPCs in a room may be part of separate quest arcs
+
+EXAMPLES
+    > talk janitor_hex
+    > talk arc_agent
+    > talk ghost_admin
+
+TIPS
+    • Some dialogue requires specific trait levels or items.
+    • Others only unlock after reading hidden lore.
+
+SEE ALSO
+    man look(1), man examine(1), man quests(1)

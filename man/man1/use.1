@@ -1,0 +1,36 @@
+USE(1)                      lore://boot Manual                     USE(1)
+
+NAME
+    use - activate an item from your inventory
+
+SYNOPSIS
+    use <item_id>
+
+DESCRIPTION
+    The `use` command activates the functional payload of an item
+    currently in your inventory.
+
+    Item behavior depends on type:
+
+        • consumable - heals HP or applies effects immediately
+        • cursed     - applies negative effects (cannot be avoided)
+        • artifact   - typically passive, but may respond to use
+        • key        - may only function when a locked object is nearby
+
+RULES
+    • You may only use items that are in your possession
+    • Some items are automatically consumed on use
+    • Others remain after activation
+    • Some items may require minimum trait levels (e.g., wisdom, strength)
+
+DANGERS
+    • Cursed items do not ask permission
+    • Some items lie about what they do
+
+EXAMPLES
+    > use cooling_gel
+    > use cursed_patch
+    > use dev_override_token
+
+SEE ALSO
+    man inventory(1), man status(1), man examine(1)

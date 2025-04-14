@@ -20,6 +20,7 @@ pub enum Command {
     Status,
     Quests,
     Help,
+    Man(String),
     Unknown(String),
 }
 
@@ -39,6 +40,26 @@ impl Command {
             "talk" if words.len() > 1 => Command::Talk(words[1..].join(" ")),
             "attack" if words.len() > 1 => Command::Attack(words[1..].join(" ")),
             "use" if words.len() > 1 => Command::Use(words[1..].join(" ")),
+            "man" => {
+                match words.len() {
+                    2 => {
+                        // man <topic>
+                        let topic = words[1].to_lowercase();
+                        Command::Man(format!("{}.1", topic))
+                    }
+                    3 => {
+                        // man <section> <topic>
+                        if let Ok(sec) = words[1].parse::<u8>() {
+                            let topic = words[2].to_lowercase();
+                            Command::Man(format!("{}.{}", topic, sec))
+                        } else {
+                            Command::Unknown(input.to_string())
+                        }
+                    }
+                    _ => Command::Unknown(input.to_string()),
+                }
+            }
+
             "inventory" => Command::Inventory,
             "status" => Command::Status,
             "quests" => Command::Quests,
@@ -615,20 +636,59 @@ impl Command {
             }
 
             Command::Help => {
-                println!("{}", "[COMMAND INDEX]".green().bold());
-                println!("{}", "> PRIMARY INTERFACE".green());
-                println!("{}", "  look          go <dir>      take <item>".green());
-                println!("{}", "  examine <item>  use <item>    inventory".green());
+                println!("{}", "[COMMANDS]".green().bold());
+                println!(
+                    "{}",
+                    "  go <direction>       - move to another room (north, east, etc.)"
+                );
+                println!(
+                    "{}",
+                    "  look                 - describe current room and visible objects"
+                );
+                println!(
+                    "{}",
+                    "  scan                 - reveal hidden lore fragments"
+                );
+                println!(
+                    "{}",
+                    "  examine <thing>      - inspect an item or lore object"
+                );
+                println!("{}", "  talk <npc>           - speak with a present NPC");
+                println!(
+                    "{}",
+                    "  use <item>           - use an item from your inventory"
+                );
+                println!("{}", "  inventory            - list current items");
+                println!(
+                    "{}",
+                    "  status               - show your traits, HP, quest state"
+                );
+                println!(
+                    "{}",
+                    "  quests               - list active quests and steps"
+                );
+                println!(
+                    "{}",
+                    "  man <topic>          - read a system manual (e.g. man lore)"
+                );
+                println!(
+                    "{}",
+                    "  help                 - show this help message again"
+                );
+            }
 
-                println!();
-                println!("{}", "> INTERACTION MODULES".green());
-                println!("{}", "  talk <npc>     attack <enemy>  quests".green());
-                println!("{}", "  status         help".green());
-
-                println!();
-                println!("{}", "[HIDDEN OPS ENABLED]".dim().green());
-                println!("{}", "  sudo reboot    echo $USER     ls".dim().green());
-                println!("{}", "  grep -r <term>".dim().green());
+            Command::Man(key) => {
+                if let Some(content) = game.manpages.get(key) {
+                    println!("{}", content);
+                } else {
+                    println!(
+                        "{}",
+                        format!("No manual entry for '{}'", key)
+                            .italic()
+                            .dim()
+                            .green()
+                    );
+                }
             }
 
             Command::Unknown(cmd) => match cmd.as_str() {

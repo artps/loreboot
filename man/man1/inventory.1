@@ -1,0 +1,37 @@
+INVENTORY(1)                lore://boot Manual              INVENTORY(1)
+
+NAME
+    inventory - display all items currently in your possession
+
+SYNOPSIS
+    inventory
+
+DESCRIPTION
+    The `inventory` command lists all items you currently hold.
+
+    Items are gained by:
+        • Picking them up in rooms
+        • Receiving them from NPCs
+        • Unlocking them via lore events or quests
+
+    Item types include:
+
+        artifact    - grants passive trait effects
+        consumable  - restores HP or triggers effects
+        key         - unlocks access to protected areas
+        cursed      - harmful payloads that cannot be trusted
+        clue        - informational only
+        debug       - not intended for user possession
+
+NOTES
+    • Some items apply effects immediately when acquired
+    • Some cannot be dropped
+    • You may examine items for more information using `examine`
+
+EXAMPLES
+    > inventory
+    [cooling_gel]  :: consumable (HP +15)
+    [debugger_badge]  :: artifact (+1 INT)
+
+SEE ALSO
+    man examine(1), man use(1), man status(1)

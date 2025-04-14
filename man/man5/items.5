@@ -1,0 +1,59 @@
+ITEMS(5)                    lore://boot Manual                  ITEMS(5)
+
+NAME
+    items - classification and behavior of inventory objects
+
+DESCRIPTION
+    Items in Serverness are fragments of data, memory, or hardware
+    remnants that can be used, equipped, studied, or feared.
+
+    Each item has:
+        • An ID
+        • A type
+        • A description
+        • Optional effects (on traits or health)
+
+ITEM TYPES
+
+    artifact
+        Grants permanent trait bonuses. Usually safe.
+        Examples: debugger_badge, sudo_token
+
+    consumable
+        One-time use items. Often restore HP or grant small buffs.
+        Examples: cooling_gel, coffee_sludge
+
+    cursed
+        Apply negative effects on pickup or use. Some may not be removable.
+        Examples: cursed_patch
+
+    key
+        Used to unlock locked exits or complete quest steps.
+        Examples: arc_badge, core_activation_key
+
+    clue
+        Informational-only. May hint at triggers, passwords, or quest paths.
+        Examples: quarantine_report
+
+    debug
+        Reserved for testing or hidden logic paths. Use with caution.
+        Examples: dev_override_token
+
+TRAIT EFFECTS
+    Some items modify player traits (e.g., +1 intelligence).
+    These effects stack and persist until removed or overridden.
+
+HEALING
+    Items that restore HP are often tagged as `consumable`.
+    Healing scales with `wisdom` if above 5.
+
+DANGERS
+    • Some cursed items trigger when picked up.
+    • Some keys are tied to irreversible doors or endings.
+
+EXAMPLES
+    > use cooling_gel
+    > examine debugger_badge
+
+SEE ALSO
+    man examine(1), man use(1), man traits(5)

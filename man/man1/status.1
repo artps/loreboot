@@ -1,0 +1,44 @@
+STATUS(1)                   lore://boot Manual                  STATUS(1)
+
+NAME
+    status - display current user traits, health, and memory state
+
+SYNOPSIS
+    status
+
+DESCRIPTION
+    The `status` command provides a full snapshot of your current self,
+    including:
+
+        • Health Points (HP)
+        • Trait values (e.g., intelligence, wisdom, agility)
+        • Trait modifiers from items
+        • Current quest progress (summary view)
+        • Any active flags (e.g., corruption markers)
+
+TRAITS
+    Traits represent aspects of your system/user integrity. These may
+    affect combat, decision paths, healing, or dialogue access.
+
+        strength      - raw damage potential
+        intelligence  - logic, debugging ability
+        persistence   - resilience and inner recursion
+        agility       - speed, dodge chance
+        charisma      - dialogue nuance
+        luck          - chance-based bonuses or failures
+        wisdom        - insight, lore sensitivity, healing bonus
+
+EXAMPLES
+    > status
+
+    HP: 27/35
+    Traits:
+        INT: 7 (+1 from debugger_badge)
+        WIS: 6 (+1 from sudo_token)
+        AGI: 5
+
+    Active Quests: 2
+    - getSudoToken (in progress)
+
+SEE ALSO
+    man inventory(1), man quests(1), man use(1)

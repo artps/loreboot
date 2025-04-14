@@ -1,0 +1,37 @@
+LOOK(1)                     lore://boot Manual                    LOOK(1)
+
+NAME
+    look - display current system node and its active components
+
+SYNOPSIS
+    look
+
+DESCRIPTION
+    The `look` command inspects your immediate environment — the current
+    system node — and displays all visible components:
+
+        • Room name and description
+        • Exits and directions
+        • Items available for interaction or pickup
+        • NPCs present in memory
+        • Enemies currently manifesting
+
+    Use this command often to regain orientation or check if anything
+    has changed. Many rooms may shift over time. Others never did.
+
+NOTES
+    • `look` does not reveal hidden logs. Use `scan` to probe further.
+    • Some enemies do not manifest until specific triggers are activated.
+    • Room descriptions may be overwritten by corrupted memory layers.
+
+EXAMPLES
+    > look
+    LOBBY
+    A quiet terminal lounge. Broken LED panels flicker...
+    Exits: north
+    Items: none
+    NPCs: Receptionist Clara
+    Enemies: none
+
+SEE ALSO
+    man scan(1), man examine(1), man move(1)

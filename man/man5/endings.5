@@ -1,0 +1,64 @@
+ENDINGS(5)                  lore://boot Manual                ENDINGS(5)
+
+NAME
+    endings - terminal state selection at the Decision Nexus
+
+DESCRIPTION
+    At the final layer of Serverness lies the Decision Nexus — a
+    translucent system void containing two terminals:
+
+        ACCEPT    :: Reinstate the Core and let Old Root persist
+        PURGE     :: Wipe the system and sever recursion
+        LOOP      :: Merge with the daemon. Become part of it.
+        OVERRIDE  :: (optional) Inject corrupted sudo token and force
+                     an unauthorized ending
+
+    This is the only moment of explicit choice.
+    Everything else you’ve done merely led you here.
+
+UNLOCK CONDITIONS
+
+    • OVERRIDE becomes available only if the player possesses the
+      `compressed_sudo_token` from the `getSudoToken` quest
+
+    • Additional narrative variations may occur if you’ve read:
+
+        - ghost_admin_diary
+        - flicker_of_me
+        - scrapcode_cache
+
+    • Trait thresholds (e.g. wisdom > 7) may influence outcome flavor
+      in future versions
+
+USAGE
+
+    You will be prompted at the Decision Nexus. Input one of:
+
+        1
+        2
+        3
+        override
+
+RESULTS
+
+    • Your selection determines which ending log is printed
+    • Certain endings may reflect on your choices, inventory, or
+      corruption state
+
+WARNINGS
+
+    • There is no undo
+    • All logs are final
+    • Some choices are lies pretending to be choices
+
+EXAMPLES
+
+    > 1
+    [ENDING] :: ACCEPT
+
+    > override
+    [ROOT ACCESS INJECTED]
+    [ENDING] :: OVERRIDE
+
+SEE ALSO
+    man status(1), man quests(5), man lore(5)

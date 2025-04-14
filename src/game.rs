@@ -5,8 +5,8 @@ use crate::{
 };
 use chrono::Utc;
 use crossterm::style::Stylize;
-use std::fs::File;
 use std::io::{Write, stdin, stdout};
+use std::{collections::HashMap, fs::File};
 use std::{thread, time::Duration};
 use uuid::Uuid;
 
@@ -18,6 +18,33 @@ struct MusicEvent<'a> {
     event: &'a str,
 }
 
+use std::fs;
+use std::path::PathBuf;
+
+fn load_manpages() -> HashMap<String, String> {
+    let mut pages = HashMap::new();
+    let base = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("man");
+    let sections = ["man1", "man5"];
+
+    for section in sections {
+        let dir = base.join(section);
+        if let Ok(entries) = fs::read_dir(&dir) {
+            for entry in entries.flatten() {
+                let path = entry.path();
+                if let (Some(fname), Ok(content)) = (
+                    path.file_name().and_then(|s| s.to_str()),
+                    fs::read_to_string(&path),
+                ) {
+                    // fname: "lore.1", "scan.1", "traits.5", etc.
+                    pages.insert(fname.to_lowercase(), content);
+                }
+            }
+        }
+    }
+
+    pages
+}
+
 pub struct Game {
     pub world: World,
     pub player: Player,
@@ -25,6 +52,7 @@ pub struct Game {
     pub quests: Vec<Quest>,
     pub running: bool,
     pub session: Uuid,
+    pub manpages: HashMap<String, String>,
 }
 
 impl Game {
@@ -36,6 +64,7 @@ impl Game {
             running: true,
             session,
             world,
+            manpages: load_manpages(),
         }
     }
 
