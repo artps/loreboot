@@ -1,4 +1,9 @@
-use crate::{battle, game::Game, music, quest, structs::QuestAction};
+use crate::{
+    battle,
+    game::Game,
+    music, quest,
+    structs::{IdRef, QuestAction},
+};
 use crossterm::style::Stylize;
 
 pub enum Command {
@@ -323,43 +328,76 @@ impl Command {
                     return;
                 }
 
-                // Then check visible lore in current room
-                let room = game.current_room();
-                if let Some(obj) = room.lore.iter().find(|l| {
-                    !l.hidden
-                        && (l.id == *target
-                            || l.name.to_lowercase().contains(&target.to_lowercase()))
-                }) {
-                    println!("{}", "[MEMORY TRACE DETECTED]".green().bold());
-                    println!("{}", obj.description.clone().green());
+                let (effect, lore_id) = {
+                    let room = game.current_room_mut();
+                    if let Some(obj) = room.lore.iter().find(|l| {
+                        !l.hidden
+                            && (l.id == *target
+                                || l.name.to_lowercase().contains(&target.to_lowercase()))
+                    }) {
+                        println!("{}", "[MEMORY TRACE DETECTED]".green().bold());
+                        println!("{}", obj.description.clone().green());
 
-                    for log in &obj.logs {
-                        println!("{}", format!("> {}", log).green().dim().italic());
+                        for log in &obj.logs {
+                            println!("{}", format!("> {}", log).green().dim().italic());
+                        }
+
+                        (obj.trigger_effect.clone(), Some(obj.id.clone()))
+                    } else {
+                        println!(
+                            "{}",
+                            "> scan.lore: void response :: 0x000".italic().dim().green()
+                        );
+                        (None, None)
                     }
-                } else {
-                    println!(
-                        "{}",
-                        "> scan.lore: void response :: 0x000".italic().dim().green()
+                };
+
+                if let Some(effect) = effect {
+                    handle_trigger_effect(&effect, game);
+                }
+
+                if let Some(id) = lore_id {
+                    quest::handle_event(
+                        QuestAction::ReadLore,
+                        &id,
+                        &mut game.quests,
+                        &mut game.player,
                     );
                 }
             }
 
             Command::Scan => {
-                let room = game.current_room();
+                let hidden_lore: Vec<_> = game
+                    .current_room()
+                    .lore
+                    .iter()
+                    .filter(|obj| obj.hidden)
+                    .cloned()
+                    .collect();
+
                 println!("{}", "[SUBNET SCAN INITIALIZED]".green().bold());
 
-                for obj in &room.lore {
-                    if obj.hidden {
-                        println!(
-                            "{} {}",
-                            "[TRACE FOUND]".green(),
-                            obj.name.to_uppercase().bold().green()
-                        );
+                for obj in hidden_lore {
+                    println!(
+                        "{} {}",
+                        "[TRACE FOUND]".green(),
+                        obj.name.to_uppercase().bold().green()
+                    );
 
-                        for log in &obj.logs {
-                            println!("{}", format!("> {}", log).green().dim().italic());
-                        }
+                    for log in &obj.logs {
+                        println!("{}", format!("> {}", log).green().dim().italic());
                     }
+
+                    if let Some(effect) = &obj.trigger_effect {
+                        handle_trigger_effect(effect, game);
+                    }
+
+                    quest::handle_event(
+                        QuestAction::ReadLore,
+                        &obj.id,
+                        &mut game.quests,
+                        &mut game.player,
+                    );
                 }
             }
 
@@ -650,4 +688,51 @@ pub fn match_id_or_name<'a, T>(
         let name = get_name(obj).to_lowercase();
         id == query || name == query || id.contains(&query) || name.contains(&query)
     })
+}
+
+pub fn handle_trigger_effect(effect: &str, game: &mut Game) {
+    match effect {
+        "spawn_syslog_wraith" => {
+            if let Some(it_wing) = game.world.rooms.iter_mut().find(|r| r.id == 1) {
+                if !it_wing.enemies.iter().any(|e| e.id == "syslog_wraith") {
+                    it_wing.enemies.push(IdRef {
+                        id: "syslog_wraith".to_string(),
+                    });
+                    println!("{}", "[WRAITH MATERIALIZING...]".red().bold());
+                }
+            }
+        }
+
+        "weaken_overheating_server" => {
+            if let Some(enemy) = game
+                .world
+                .enemies
+                .iter_mut()
+                .find(|e| e.id == "overheating_server")
+            {
+                enemy.hp = enemy.hp.saturating_sub(8);
+                println!("{}", "[THERMAL DAMPENING DEPLOYED]".green().dim());
+            }
+        }
+
+        "unlock_dev_override" => {
+            println!("{}", "[DEV OVERRIDE FLAG ENABLED]".green().bold());
+            // You can later toggle a boolean in `game` to track this
+        }
+
+        "mark_player_corruption" => {
+            println!(
+                "{}",
+                "[WARNING] Recursive instability detected in user profile.".red()
+            );
+        }
+
+        "unlock_alternate_decision" => {
+            println!("{}", "[ALTERNATE ENDING PATH UNLOCKED]".green().italic());
+        }
+
+        _ => {
+            println!("{} {}", "[UNKNOWN TRIGGER EFFECT]".yellow(), effect.dim());
+        }
+    }
 }

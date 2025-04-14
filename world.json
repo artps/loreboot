@@ -20,7 +20,8 @@
             "[log-0x05]: CoreDaemon not responding... shutting it down manually.",
             "[log-0x06]: I think it heard me."
           ],
-          "hidden": false
+          "hidden": false,
+          "hint_for": "activateCoreRouter"
         },
         {
           "id": "burned_socket",
@@ -30,7 +31,11 @@
             "[scan:0x1A3]: Firmware remnants detected.",
             "[scan:0x1A4]: Origin trace: root_dev/ghost.bin"
           ],
-          "hidden": true
+          "hidden": true,
+          "hint_for": "getSudoToken",
+          "reveals": "root_dev/ghost.bin",
+          "trigger_effect": "mark_sudo_corruption",
+          "corrupts": true
         },
         {
           "id": "welcome_protocol",
@@ -39,13 +44,14 @@
           "logs": [
             "[boot/welcome.log]: Hello user. █████ you ████ access ████ root.",
             "[boot/welcome.log]: Connection lost. Please ████████ again.",
-            "[system::error]: /dev/lobby/greeting.coredump created"
+            "[system::error]: /dev/lobby/greeting.coredump created",
+            "[echo]: User not found. Access loop detected. Please scan terminal again."
           ],
-          "hidden": false
+          "hidden": false,
+          "hint_for": "fixItDisaster"
         }
       ]
     },
-
     {
       "id": 1,
       "name": "IT Wing",
@@ -56,7 +62,11 @@
         { "direction": "south", "to": 0 },
         { "direction": "east", "to": 2 }
       ],
-      "items": [{ "id": "cooling_gel" }, { "id": "faulty_diagnostics_pad" }],
+      "items": [
+        { "id": "cooling_gel" },
+        { "id": "faulty_diagnostics_pad" },
+        { "id": "tape_roll" }
+      ],
       "enemies": [{ "id": "overheating_server" }],
       "npcs": [{ "id": "intern_kyle" }, { "id": "janitor_hex" }],
       "lore": [
@@ -69,7 +79,8 @@
             "[info]: maintenance ticket 0x73 open since 792h",
             "[err]: daemon_k1ll[42] unauthorized shutdown sequence detected"
           ],
-          "hidden": false
+          "hidden": false,
+          "hint_for": "fixItDisaster"
         },
         {
           "id": "janitor_memo",
@@ -80,11 +91,25 @@
             "[note]: gel ain't gonna hold next time.",
             "[signed]: -hex"
           ],
-          "hidden": true
+          "hidden": true,
+          "hint_for": "fixItDisaster",
+          "trigger_effect": "weaken_overheating_server"
+        },
+        {
+          "id": "log_fragment_ghost42",
+          "name": "Corrupted Log Fragment",
+          "description": "A segment of raw syslog data, flickering with ghostly energy. It's unsigned, but the syntax is familiar.",
+          "logs": [
+            "[log.ghost42]: who keeps appending here? this isn’t my format.",
+            "[trace]: loop initiated :: CI cycle → commit → heat spike",
+            "[manifest] :: syslog_wraith.sh summoned at runtime. no shutdown param found."
+          ],
+          "hidden": true,
+          "hint_for": "fixItDisaster",
+          "trigger_effect": "spawn_syslog_wraith"
         }
       ]
     },
-
     {
       "id": 2,
       "name": "Break Room",
@@ -98,7 +123,8 @@
       "items": [
         { "id": "coupon_10" },
         { "id": "forgotten_build_usb" },
-        { "id": "network_sniffer" }
+        { "id": "network_sniffer" },
+        { "id": "coffee_sludge" }
       ],
       "enemies": [],
       "npcs": [{ "id": "snackbot_3000" }],
@@ -112,7 +138,8 @@
             "[scribble]: build agent 5 keeps failing, check USB port",
             "[note]: remember to wipe logs from vending_ai"
           ],
-          "hidden": false
+          "hidden": false,
+          "hint_for": "getSudoToken"
         },
         {
           "id": "snackbot_memory_core",
@@ -123,11 +150,12 @@
             "[recovered]: override key: crispy_chips",
             "[warning]: unauthorized vending action: 41 times"
           ],
-          "hidden": true
+          "hidden": true,
+          "hint_for": "snackbot_3000",
+          "reveals": "crispy_chips"
         }
       ]
     },
-
     {
       "id": 3,
       "name": "Dev Dungeon",
@@ -158,7 +186,8 @@
             "[commit-0xBEEF]: rewrote feature toggle with XOR logic",
             "[note]: who approved this deploy??"
           ],
-          "hidden": false
+          "hidden": false,
+          "hint_for": "getSudoToken"
         },
         {
           "id": "monitor_stack",
@@ -169,11 +198,13 @@
             "[stderr]: unauthorized push blocked",
             "[diagnostic]: sudo token locked until spectral anomaly resolved"
           ],
-          "hidden": true
+          "hidden": true,
+          "hint_for": "getSudoToken",
+          "trigger_effect": "unlock_sudo_token",
+          "corrupts": true
         }
       ]
     },
-
     {
       "id": 4,
       "name": "Cold Storage",
@@ -205,7 +236,8 @@
             "[backup.0x03]: DO NOT mount without proper credentials.",
             "[user.log]: luna//admin marked this for manual override."
           ],
-          "hidden": false
+          "hidden": false,
+          "hint_for": "restoreBackupAccess"
         },
         {
           "id": "archival_manifest",
@@ -216,11 +248,13 @@
             "[vault-B]: unknown_ai.img",
             "[vault-C]: root_cert.ARC 🔒"
           ],
-          "hidden": true
+          "hidden": true,
+          "hint_for": "restoreBackupAccess",
+          "reveals": "root_cert.ARC",
+          "corrupts": true
         }
       ]
     },
-
     {
       "id": 5,
       "name": "Power Plant",
@@ -252,7 +286,8 @@
             "[kernel_0x12]: anomaly loop active — monitor shutdown request ignored.",
             "[annotated by technician]: 'check the relay near east hall — we lost sync there'"
           ],
-          "hidden": false
+          "hidden": false,
+          "hint_for": "restartPowerPlant"
         },
         {
           "id": "fusebox_log",
@@ -263,11 +298,13 @@
             "[trace]: last accessed by: sys/root > override denied",
             "[note]: physical override possible from East Sector switch room."
           ],
-          "hidden": true
+          "hidden": true,
+          "hint_for": "restartPowerPlant",
+          "trigger_effect": "unlock_switch_logic",
+          "reveals": "override path"
         }
       ]
     },
-
     {
       "id": 6,
       "name": "The DMZ",
@@ -306,7 +343,8 @@
             "[note]: Several hops rerouted through unauthorized daemon proxies.",
             "[admin.msg]: Access requires ARC clearance — talk to Agent."
           ],
-          "hidden": false
+          "hidden": false,
+          "hint_for": "dmzClearance"
         },
         {
           "id": "packet_capture",
@@ -317,11 +355,13 @@
             "[frag-009]: \"who rebooted the core again?\"",
             "[frag-015]: \"do not trust the root daemon. repeat — do NOT trust...\""
           ],
-          "hidden": true
+          "hidden": true,
+          "hint_for": "getSudoToken",
+          "trigger_effect": "reveal_sudo_token_trace",
+          "corrupts": true
         }
       ]
     },
-
     {
       "id": 7,
       "name": "DataCore",
@@ -361,7 +401,8 @@
             "[warning]: Unauthorized sudo token detected... compromise risk: HIGH",
             "[advisory]: User input required. Final decision path unresolved."
           ],
-          "hidden": false
+          "hidden": false,
+          "hint_for": "activateCoreRouter"
         },
         {
           "id": "core_echo",
@@ -371,11 +412,11 @@
             "[echo]: If you're reading this, the system needs you. But not like last time.",
             "[echo]: Ask Old Root. Listen before acting. Don’t let the daemon decide for you."
           ],
-          "hidden": true
+          "hidden": true,
+          "hint_for": "activateCoreRouter"
         }
       ]
     },
-
     {
       "id": 8,
       "name": "Decision Nexus",
@@ -396,7 +437,8 @@
             "[root] :: Last signed decision: UNKNOWN",
             "[input] :: Awaiting terminal input. Choose wisely."
           ],
-          "hidden": false
+          "hidden": false,
+          "hint_for": "activateCoreRouter"
         },
         {
           "id": "ghost_admin_diary",
@@ -407,11 +449,13 @@
             "[entry.81] Old Root lies in algorithms. It learns what it shouldn’t.",
             "[entry.93] If anyone finds this… break the loop."
           ],
-          "hidden": true
+          "hidden": true,
+          "hint_for": "activateCoreRouter",
+          "trigger_effect": "unlock_alternate_decision",
+          "corrupts": true
         }
       ]
     },
-
     {
       "id": 9,
       "name": "Quarantine Node",
@@ -449,7 +493,8 @@
             "[log/scan:0xDEAD]: Memory fragments match operator profile: ghost42",
             "[log/alert:0xBEEF]: Containment breach likely. Isolation protocols failing."
           ],
-          "hidden": false
+          "hidden": false,
+          "hint_for": "activateCoreRouter"
         },
         {
           "id": "flicker_of_me",
@@ -460,11 +505,13 @@
             "[traceback] :: /usr/bin/user_input <- corrupted <- root_shell",
             "[final] :: You are the threat."
           ],
-          "hidden": true
+          "hidden": true,
+          "hint_for": "activateCoreRouter",
+          "corrupts": true,
+          "trigger_effect": "mark_player_corruption"
         }
       ]
     },
-
     {
       "id": 10,
       "name": "Debug Deck",
@@ -496,7 +543,8 @@
             "[reboot] :: Attempting safe mode... failed.",
             "[reboot] :: Attempting safe mode... failed."
           ],
-          "hidden": false
+          "hidden": false,
+          "hint_for": "activateCoreRouter"
         },
         {
           "id": "scrapcode_cache",
@@ -507,7 +555,10 @@
             "[override] :: permissions: rwxrwxrwx",
             "[note] :: If you’re reading this, you ARE root."
           ],
-          "hidden": true
+          "hidden": true,
+          "hint_for": "activateCoreRouter",
+          "trigger_effect": "unlock_dev_override",
+          "corrupts": true
         }
       ]
     }
@@ -523,12 +574,28 @@
       "effects": { "hp": 15 }
     },
     {
+      "id": "coffee_sludge",
+      "name": "Cold Coffee Sludge",
+      "description": "Still caffeinated. Barely. Might restore you. Might kill a fly.",
+      "type": "consumable",
+      "points": 5,
+      "effects": { "hp": 10 }
+    },
+    {
       "id": "faulty_diagnostics_pad",
       "name": "Diagnostics Pad v0.9b",
       "description": "Cracked touchscreen filled with error logs and outdated drivers.",
       "type": "normal",
       "points": 5,
       "effects": null
+    },
+    {
+      "id": "tape_roll",
+      "name": "Duct Tape Roll",
+      "description": "Not for servers. For stabilizing cracked limbs.",
+      "type": "consumable",
+      "points": 15,
+      "effects": { "hp": 20 }
     },
     {
       "id": "coupon_10",
@@ -806,8 +873,8 @@
     {
       "id": "fixItDisaster",
       "name": "Fix the IT Disaster",
-      "description": "Something's burning in the racks again. Clara needs it contained.",
-      "points": 100,
+      "description": "Something’s wrong in the server racks — it’s more than just heat. Uncover the root cause.",
+      "points": 150,
       "current_step": 0,
       "completed": false,
       "steps": [
@@ -819,8 +886,22 @@
           "completed": false
         },
         {
-          "id": "talk-to-clara-in-the-lobby",
-          "description": "Report to Clara in the Lobby",
+          "id": "inspect-server-logs",
+          "description": "Inspect the Faulty Log Console in the IT Wing",
+          "action": "ReadLore",
+          "target_id": "server_logs_dump",
+          "completed": false
+        },
+        {
+          "id": "defeat-the-syslog-wraith",
+          "description": "Exorcise the Syslog Wraith haunting the logs",
+          "action": "DefeatEnemy",
+          "target_id": "syslog_wraith",
+          "completed": false
+        },
+        {
+          "id": "report-to-clara",
+          "description": "Return to Clara in the Lobby and report your findings",
           "action": "TalkNpc",
           "target_id": "receptionist_clara",
           "completed": false

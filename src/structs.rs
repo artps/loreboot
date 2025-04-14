@@ -33,6 +33,10 @@ pub struct LoreObject {
     pub logs: Vec<String>,
     pub hidden: bool, // requires `scan` to be visible
     pub generated: Option<bool>,
+    pub hint_for: Option<String>,
+    pub trigger_effect: Option<String>,
+    pub reveals: Option<String>,
+    pub corrupts: Option<bool>,
 }
 
 #[derive(Debug, Deserialize, Clone)]
@@ -130,4 +134,5 @@ pub enum QuestAction {
     CollectItem,
     TalkNpc,
     UseTerminal,
+    ReadLore,
 }

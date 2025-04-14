@@ -133,19 +133,44 @@ impl Player {
         });
 
         if let Some(item) = world.items.iter().find(|i| i.id == item_id) {
-            if let Some(mods) = &item.effects {
-                self.intelligence += mods.intelligence.unwrap_or(0);
-                self.persistence += mods.persistence.unwrap_or(0);
-                self.agility += mods.agility.unwrap_or(0);
-                self.charisma += mods.charisma.unwrap_or(0);
-                self.luck += mods.luck.unwrap_or(0);
-                self.wisdom += mods.wisdom.unwrap_or(0);
-                self.strength += mods.strength.unwrap_or(0);
+            let cursed = item.item_type == "cursed";
 
+            if let Some(effects) = &item.effects {
+                self.intelligence += effects.intelligence.unwrap_or(0);
+                self.persistence += effects.persistence.unwrap_or(0);
+                self.agility += effects.agility.unwrap_or(0);
+                self.charisma += effects.charisma.unwrap_or(0);
+                self.luck += effects.luck.unwrap_or(0);
+                self.wisdom += effects.wisdom.unwrap_or(0);
+                self.strength += effects.strength.unwrap_or(0);
+
+                if !cursed {
+                    println!(
+                        "{} {}",
+                        "[TRAIT MODIFIERS APPLIED]".green().bold(),
+                        item.name.to_uppercase().dim()
+                    );
+                }
+            }
+
+            if cursed {
+                if let Some(effects) = &item.effects {
+                    if let Some(hp) = effects.hp {
+                        self.hp = self.hp.saturating_add(hp);
+                        println!(
+                            "{} {}",
+                            "[CURSED PAYLOAD]".red().bold(),
+                            format!("HP -{}", hp.abs()).red().bold()
+                        );
+                    }
+                }
+
+                println!("{}", "[CORRUPTION ACTIVE]".red().bold());
                 println!(
-                    "{} {}",
-                    "[TRAIT MODIFIERS APPLIED]".green().bold(),
-                    item.name.to_uppercase().dim()
+                    "{}",
+                    "You feel a void echoing in your memory space..."
+                        .red()
+                        .dim()
                 );
             }
         }
