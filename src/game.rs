@@ -65,6 +65,15 @@ impl Game {
         println!("{}", "2. PURGE  - Wipe everything and shut it down".green());
         println!("{}", "3. LOOP   - Refuse. Merge with the system".green());
 
+        if self.player.has_item("compressed_sudo_token") {
+            println!(
+                "{}",
+                "4. OVERRIDE - Use corrupted token to break protocol"
+                    .yellow()
+                    .bold()
+            );
+        }
+
         loop {
             print!("{}", "> ");
             stdout().flush().unwrap();
@@ -84,6 +93,10 @@ impl Game {
                 }
                 "3" | "loop" => {
                     self.finalize_ending("loop");
+                    break;
+                }
+                "4" | "override" => {
+                    self.finalize_ending("override");
                     break;
                 }
                 _ => {
@@ -139,6 +152,21 @@ impl Game {
                 println!("{}", "[core] :: Identity dissolved into recursion.".blue());
                 println!();
                 println!("{}", "[ENDING ACHIEVED] :: LOOP".blue().bold());
+            }
+
+            "override" => {
+                println!("{}", "[ROOT ACCESS INJECTED]".yellow().bold());
+                println!(
+                    "{}",
+                    "[SYSTEM ERROR] :: Unexpected sudo payload detected".yellow()
+                );
+                println!("{}", "[kernel] :: Recursive override accepted.".yellow());
+                println!(
+                    "{}",
+                    "[AUTH] :: ghost42 returning to root...".yellow().italic()
+                );
+                println!();
+                println!("{}", "[ENDING ACHIEVED] :: OVERRIDE".yellow().bold());
             }
 
             _ => {

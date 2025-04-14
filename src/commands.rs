@@ -518,6 +518,19 @@ impl Command {
                         &mut game.quests,
                         &mut game.player,
                     );
+
+                    // todo: make it a quest event
+                    if npc.id == "devghost42" {
+                        if !game.player.has_item("compressed_sudo_token") {
+                            game.player.add_item("compressed_sudo_token", &game.world);
+                            println!(
+                                "{} {}",
+                                "[RECEIVED]".green().bold(),
+                                "COMPRESSED SUDO TOKEN".yellow().bold()
+                            );
+                            println!("{}", "[WARNING] The token feels... wrong.".red().italic());
+                        }
+                    }
                 } else {
                     println!(
                         "{} {}",

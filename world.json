@@ -220,7 +220,8 @@
           "locked": true,
           "required_quest_id": "restoreBackupAccess",
           "required_step": "collect-the-encrypted-credentials",
-          "locked_msg": "[LOCKED SECTOR] Requires restored credentials to proceed."
+          "required_item_id": "core_activation_key",
+          "locked_msg": "[LOCKED SECTOR] Decision Nexus requires valid credentials and Core Key."
         }
       ],
       "items": [{ "id": "cryo_disk" }, { "id": "encrypted_credentials" }],
@@ -725,6 +726,15 @@
       "type": "system",
       "points": 0,
       "effects": null
+    },
+
+    {
+      "id": "compressed_sudo_token",
+      "name": "Compressed Sudo Token",
+      "description": "A tightly packed bundle of root permissions. Glows with unresolved merge conflicts.",
+      "type": "artifact",
+      "points": 60,
+      "effects": { "intelligence": 1, "wisdom": 1 }
     }
   ],
 
@@ -928,13 +938,6 @@
           "description": "Confront DevGhost42",
           "action": "TalkNpc",
           "target_id": "devghost42",
-          "completed": false
-        },
-        {
-          "id": "collect-sudo-token",
-          "description": "Retrieve the Compressed Sudo Token",
-          "action": "CollectItem",
-          "target_id": "compressed_sudo_token",
           "completed": false
         }
       ]
